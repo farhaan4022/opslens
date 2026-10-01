@@ -1,0 +1,1 @@
+nano_cpus=500000000 cpu_quota=0 cpu_period=0 memory_bytes=0

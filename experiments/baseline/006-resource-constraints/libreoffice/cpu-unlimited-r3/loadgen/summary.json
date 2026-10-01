@@ -1,0 +1,23 @@
+{
+  "run_id": "d9fe288f",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 16.459169,
+  "throughput_rps": 7.290769,
+  "latency_successful_s": {
+    "min": 0.100913,
+    "p50": 0.915365,
+    "p95": 1.043068,
+    "p99": 1.174103,
+    "max": 1.178459
+  }
+}
