@@ -1,0 +1,23 @@
+{
+  "run_id": "1162863c",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 60,
+  "concurrency": 1,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 60,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 6.398544,
+  "throughput_rps": 9.377134,
+  "latency_successful_s": {
+    "min": 0.097822,
+    "p50": 0.100351,
+    "p95": 0.104997,
+    "p99": 0.249672,
+    "max": 0.452886
+  }
+}
