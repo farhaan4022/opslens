@@ -1,0 +1,23 @@
+{
+  "run_id": "ebead15c",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3002",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 1,
+  "concurrency": 1,
+  "warmup_requests": 0,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 1,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 0.553369,
+  "throughput_rps": 1.807111,
+  "latency_successful_s": {
+    "min": 0.552892,
+    "p50": 0.552892,
+    "p95": 0.552892,
+    "p99": 0.552892,
+    "max": 0.552892
+  }
+}

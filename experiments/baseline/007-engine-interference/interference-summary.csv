@@ -1,0 +1,9 @@
+architecture,mode,engine,runs,success_rate_pct_mean,throughput_mean_rps,throughput_stdev,p95_mean_s
+isolated,chromium,chromium,3,100.0,12.159,0.052,0.88
+isolated,libreoffice,libreoffice,3,100.0,7.28,0.161,1.1
+isolated,mixed,chromium,3,100.0,11.834,0.178,0.888
+isolated,mixed,libreoffice,3,100.0,6.903,0.159,1.198
+shared,chromium,chromium,3,100.0,16.146,0.135,0.664
+shared,libreoffice,libreoffice,3,100.0,8.011,0.094,0.938
+shared,mixed,chromium,3,100.0,13.546,0.146,0.797
+shared,mixed,libreoffice,3,100.0,6.036,0.076,1.797

@@ -1,0 +1,2 @@
+chromium_exit=0
+libreoffice_exit=0

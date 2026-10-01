@@ -1,0 +1,34 @@
+
+Starting OpsLens workload
+Run ID:       2a41d731
+Engine:       libreoffice
+Requests:     60
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "2a41d731",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3002",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 60,
+  "concurrency": 6,
+  "warmup_requests": 0,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 60,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 8.478544,
+  "throughput_rps": 7.076687,
+  "latency_successful_s": {
+    "min": 0.129497,
+    "p50": 0.975828,
+    "p95": 1.149574,
+    "p99": 1.153155,
+    "max": 1.153361
+  }
+}
+
+Requests: experiments/baseline/007-engine-interference/isolated-mixed-smoke/libreoffice/requests.csv
+Summary:  experiments/baseline/007-engine-interference/isolated-mixed-smoke/libreoffice/summary.json

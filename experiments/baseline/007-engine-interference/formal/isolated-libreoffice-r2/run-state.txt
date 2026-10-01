@@ -1,0 +1,4 @@
+architecture=isolated
+mode=libreoffice
+chromium_exit=not-run
+libreoffice_exit=0

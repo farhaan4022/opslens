@@ -1,0 +1,4 @@
+timestamp_ms	cpu_pct	memory_usage	memory_pct	pids
+1790883222383	383.25%	417.1MiB / 1GiB	40.73%	176
+1790883224153	413.03%	368.1MiB / 1GiB	35.95%	163
+1790883226158	410.55%	415.3MiB / 1GiB	40.55%	178

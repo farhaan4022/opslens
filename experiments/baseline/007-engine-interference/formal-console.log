@@ -1,0 +1,153 @@
+
+==============================================
+Repeat:       1
+Architecture: shared
+Mode:         chromium
+==============================================
+Shared container healthy
+Completed: shared-chromium-r1
+
+==============================================
+Repeat:       1
+Architecture: shared
+Mode:         libreoffice
+==============================================
+Shared container healthy
+Completed: shared-libreoffice-r1
+
+==============================================
+Repeat:       1
+Architecture: shared
+Mode:         mixed
+==============================================
+Shared container healthy
+Completed: shared-mixed-r1
+
+==============================================
+Repeat:       1
+Architecture: isolated
+Mode:         chromium
+==============================================
+Chromium container healthy
+LibreOffice container healthy
+Completed: isolated-chromium-r1
+
+==============================================
+Repeat:       1
+Architecture: isolated
+Mode:         libreoffice
+==============================================
+Chromium container healthy
+LibreOffice container healthy
+Completed: isolated-libreoffice-r1
+
+==============================================
+Repeat:       1
+Architecture: isolated
+Mode:         mixed
+==============================================
+Chromium container healthy
+LibreOffice container healthy
+Completed: isolated-mixed-r1
+
+==============================================
+Repeat:       2
+Architecture: isolated
+Mode:         mixed
+==============================================
+Chromium container healthy
+LibreOffice container healthy
+Completed: isolated-mixed-r2
+
+==============================================
+Repeat:       2
+Architecture: isolated
+Mode:         libreoffice
+==============================================
+Chromium container healthy
+LibreOffice container healthy
+Completed: isolated-libreoffice-r2
+
+==============================================
+Repeat:       2
+Architecture: isolated
+Mode:         chromium
+==============================================
+Chromium container healthy
+LibreOffice container healthy
+Completed: isolated-chromium-r2
+
+==============================================
+Repeat:       2
+Architecture: shared
+Mode:         mixed
+==============================================
+Shared container healthy
+Completed: shared-mixed-r2
+
+==============================================
+Repeat:       2
+Architecture: shared
+Mode:         libreoffice
+==============================================
+Shared container healthy
+Completed: shared-libreoffice-r2
+
+==============================================
+Repeat:       2
+Architecture: shared
+Mode:         chromium
+==============================================
+Shared container healthy
+Completed: shared-chromium-r2
+
+==============================================
+Repeat:       3
+Architecture: shared
+Mode:         libreoffice
+==============================================
+Shared container healthy
+Completed: shared-libreoffice-r3
+
+==============================================
+Repeat:       3
+Architecture: isolated
+Mode:         chromium
+==============================================
+Chromium container healthy
+LibreOffice container healthy
+Completed: isolated-chromium-r3
+
+==============================================
+Repeat:       3
+Architecture: shared
+Mode:         mixed
+==============================================
+Shared container healthy
+Completed: shared-mixed-r3
+
+==============================================
+Repeat:       3
+Architecture: isolated
+Mode:         mixed
+==============================================
+Chromium container healthy
+LibreOffice container healthy
+Completed: isolated-mixed-r3
+
+==============================================
+Repeat:       3
+Architecture: shared
+Mode:         chromium
+==============================================
+Shared container healthy
+Completed: shared-chromium-r3
+
+==============================================
+Repeat:       3
+Architecture: isolated
+Mode:         libreoffice
+==============================================
+Chromium container healthy
+LibreOffice container healthy
+Completed: isolated-libreoffice-r3

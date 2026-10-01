@@ -1,0 +1,4 @@
+architecture=shared
+mode=chromium
+chromium_exit=0
+libreoffice_exit=not-run

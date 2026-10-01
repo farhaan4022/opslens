@@ -1,0 +1,1 @@
+nano_cpus=4000000000 memory_bytes=1073741824 memory_swap=1073741824
