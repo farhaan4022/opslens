@@ -1,0 +1,7 @@
+Image=gotenberg/gotenberg:8.37.0
+ImageID=sha256:513c8391ff62dec22ddf3da520ff606b70753c957fdc5b00e62073c6ecfb6bb8
+NetworkMode=bridge
+PortBindings={"3000/tcp":[{"HostIp":"127.0.0.1","HostPort":"3000"}]}
+MemoryLimit=0
+CPUQuota=0
+PidsLimit=<no value>

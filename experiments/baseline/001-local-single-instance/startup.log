@@ -1,0 +1,33 @@
+
+  _____     __           __               
+ / ___/__  / /____ ___  / /  ___ _______ _
+/ (_ / _ \/ __/ -_) _ \/ _ \/ -_) __/ _ '/
+\___/\___/\__/\__/_//_/_.__/\__/_/  \_, / 
+                                   /___/
+
+A Docker-based API for converting documents to PDF.
+Version: 8.37.0
+-------------------------------------------------------
+[SYSTEM] modules: api chromium exiftool libreoffice libreoffice-api libreoffice-pdfengine pdfcpu pdfengines pdftk prometheus qpdf webhook 
+[SYSTEM] libreoffice-api: LibreOffice ready to start
+[SYSTEM] chromium: Chromium ready to start
+[SYSTEM] prometheus: collecting metrics
+[SYSTEM] pdfengines: merge engines - qpdf pdfcpu pdftk
+[SYSTEM] pdfengines: split engines - pdfcpu qpdf pdftk
+[SYSTEM] pdfengines: flatten engines - qpdf
+[SYSTEM] pdfengines: convert engines - libreoffice-pdfengine
+[SYSTEM] pdfengines: optimize images engines - pdfcpu
+[SYSTEM] pdfengines: read metadata engines - exiftool
+[SYSTEM] pdfengines: write metadata engines - exiftool
+[SYSTEM] pdfengines: encrypt engines - qpdf pdftk pdfcpu
+[SYSTEM] pdfengines: embed engines - pdfcpu
+[SYSTEM] pdfengines: embed metadata engines - qpdf
+[SYSTEM] pdfengines: read bookmarks engines - pdfcpu
+[SYSTEM] pdfengines: write bookmarks engines - pdfcpu
+[SYSTEM] pdfengines: watermark engines - pdfcpu pdftk
+[SYSTEM] pdfengines: stamp engines - pdfcpu pdftk
+[SYSTEM] pdfengines: rotate engines - pdfcpu pdftk
+[SYSTEM] pdfengines: factur-x engines - qpdf
+[SYSTEM] pdfengines: max concurrency - 1
+[SYSTEM] api: server started on [::]:3000
+{"ts":1790821293.2930982,"level":"info","msg":"request handled","logger":"api","log_type":"access","correlation_id":"f291e5d2-d283-47aa-8f0c-faf1f1e90c88","remote_ip":"172.17.0.1","host":"127.0.0.1:3000","uri":"/favicon.ico","method":"GET","path":"/favicon.ico","referer":"http://127.0.0.1:3000/","user_agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36","status":204,"latency":101872,"latency_human":"101.872µs","bytes_in":0,"bytes_out":0,"trace_id":"c7a8d18a1958173526debef8c3beffb4","span_id":"45ae57044d5d83fe"}
