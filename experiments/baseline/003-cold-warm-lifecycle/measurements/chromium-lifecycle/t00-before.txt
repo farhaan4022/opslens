@@ -1,0 +1,10 @@
+timestamp=2026-10-01T08:13:45+05:30
+
+=== DOCKER STATS ===
+CONTAINER ID   NAME                CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O        PIDS
+c6f94e92c690   opslens-gotenberg   0.02%     7.074MiB / 15.44GiB   0.04%     4.04kB / 983B   90.1kB / 188kB   11
+
+=== PROCESS SNAPSHOT ===
+PID                 PPID                USER                %CPU                %MEM                ELAPSED             COMMAND
+29798               29778               farhu               0.1                 0.0                 00:16               /usr/bin/tini -- gotenberg
+29863               29798               farhu               0.0                 0.1                 00:16               gotenberg

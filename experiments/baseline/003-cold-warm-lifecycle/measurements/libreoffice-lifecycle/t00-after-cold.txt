@@ -1,0 +1,11 @@
+timestamp=2026-10-01T08:24:37+05:30
+
+=== DOCKER STATS ===
+CONTAINER ID   NAME                CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O    PIDS
+bb2ca5c790ec   opslens-gotenberg   0.02%     84.76MiB / 15.44GiB   0.54%     5.23kB / 16.8kB   0B / 393kB   21
+
+=== PROCESS SNAPSHOT ===
+PID                 PPID                USER                %CPU                %MEM                ELAPSED             COMMAND
+30850               30829               farhu               0.0                 0.0                 00:25               /usr/bin/tini -- gotenberg
+30916               30850               farhu               0.4                 0.1                 00:25               gotenberg
+30976               30916               farhu               2.7                 1.2                 00:08               /usr/lib/libreoffice/program/soffice.bin --headless --invisible --nocrashreport --nodefault --nologo --nofirststartwizard --norestore -env:UserInstallation=file:///tmp/504f14e6-a155-4750-9780-2ee38236b0ee/a738590f-c99a-4578-9dce-771f7590223f --accept=socket,host=127.0.0.1,port=38687,tcpNoDelay=1;urp;StarOffice.ComponentContext
