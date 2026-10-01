@@ -1,0 +1,5 @@
+CONTAINER ID   IMAGE                        COMMAND                  CREATED              STATUS              PORTS                                                 NAMES
+f50a86776dc9   nginx:latest                 "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp, 0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp   opslens-scale-lb
+e26f940ae8b4   gotenberg/gotenberg:8.37.0   "/usr/bin/tini -- go…"   10 minutes ago       Up 10 minutes       3000/tcp                                              opslens-scale-1
+1ac8c3e05aa7   gotenberg/gotenberg:8.37.0   "/usr/bin/tini -- go…"   10 minutes ago       Up 10 minutes       3000/tcp                                              opslens-scale-3
+01b2bc3e189d   gotenberg/gotenberg:8.37.0   "/usr/bin/tini -- go…"   10 minutes ago       Up 10 minutes       3000/tcp                                              opslens-scale-2

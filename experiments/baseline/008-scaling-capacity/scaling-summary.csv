@@ -1,0 +1,7 @@
+replicas,engine,requests,success_rate_pct,throughput_rps,p50_latency_s,p95_latency_s,p99_latency_s
+1,chromium,600,100.0,12.959,3.603,5.409,6.329
+1,libreoffice,600,100.0,6.278,6.051,11.152,11.537
+2,chromium,600,100.0,13.104,3.592,5.605,6.392
+2,libreoffice,600,100.0,6.167,6.189,11.769,12.012
+3,chromium,600,100.0,12.77,3.646,5.5,6.303
+3,libreoffice,600,100.0,6.233,6.286,10.869,11.056

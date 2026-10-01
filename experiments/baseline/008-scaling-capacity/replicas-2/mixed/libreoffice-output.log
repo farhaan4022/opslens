@@ -1,0 +1,35 @@
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       f659827e
+Engine:       libreoffice
+Requests:     600
+Concurrency:  48
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "f659827e",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:8080",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 600,
+  "concurrency": 48,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 600,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 97.291731,
+  "throughput_rps": 6.16702,
+  "latency_successful_s": {
+    "min": 0.169716,
+    "p50": 6.189098,
+    "p95": 11.769475,
+    "p99": 12.012271,
+    "max": 12.170334
+  }
+}
+
+Requests: experiments/baseline/008-scaling-capacity/replicas-2/mixed/libreoffice/requests.csv
+Summary:  experiments/baseline/008-scaling-capacity/replicas-2/mixed/libreoffice/summary.json

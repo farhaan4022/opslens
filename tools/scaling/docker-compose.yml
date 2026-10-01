@@ -1,0 +1,17 @@
+services:
+
+  gotenberg:
+    image: gotenberg/gotenberg:8.37.0
+    cpus: 4
+    mem_limit: 1g
+
+
+  nginx:
+    image: nginx:latest
+    container_name: opslens-scale-lb
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+

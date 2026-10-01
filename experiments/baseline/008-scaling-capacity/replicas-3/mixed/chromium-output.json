@@ -1,0 +1,6 @@
+usage: loadgen.py [-h] --engine {chromium,libreoffice} [--target TARGET]
+                  --fixture FIXTURE [--requests REQUEST_COUNT]
+                  [--concurrency CONCURRENCY] [--warmup WARMUP]
+                  [--wait-delay WAIT_DELAY] [--timeout TIMEOUT] --output-dir
+                  OUTPUT_DIR
+loadgen.py: error: the following arguments are required: --output-dir

@@ -1,0 +1,35 @@
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       1a72d3df
+Engine:       chromium
+Requests:     600
+Concurrency:  48
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "1a72d3df",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:8080",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 600,
+  "concurrency": 48,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 600,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 46.985043,
+  "throughput_rps": 12.770021,
+  "latency_successful_s": {
+    "min": 0.376881,
+    "p50": 3.646268,
+    "p95": 5.500058,
+    "p99": 6.303257,
+    "max": 7.013788
+  }
+}
+
+Requests: experiments/baseline/008-scaling-capacity/replicas-3/mixed/chromium/requests.csv
+Summary:  experiments/baseline/008-scaling-capacity/replicas-3/mixed/chromium/summary.json

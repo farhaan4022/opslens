@@ -1,0 +1,5 @@
+CONTAINER ID   NAME               CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+f50a86776dc9   opslens-scale-lb   0.00%     2.715MiB / 15.44GiB   0.02%     4.39MB / 4.35MB   0B / 12.3kB       2
+e26f940ae8b4   opslens-scale-1    0.12%     163.4MiB / 1GiB       15.96%    223kB / 754kB     238kB / 13.4MB    116
+1ac8c3e05aa7   opslens-scale-3    0.02%     187.9MiB / 1GiB       18.35%    169kB / 769kB     30.3MB / 12.6MB   115
+01b2bc3e189d   opslens-scale-2    0.04%     165.3MiB / 1GiB       16.14%    168kB / 752kB     8.5MB / 12.6MB    115
