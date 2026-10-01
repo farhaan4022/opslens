@@ -1,0 +1,9 @@
+engine,memory,runs,requests,successes,failures,success_rate_pct,throughput_mean_rps,throughput_stdev_rps,p50_mean_s,p95_mean_s,p99_mean_s,oom_kill_delta_total,runs_oom_flagged
+chromium,unlimited,2,240,240,0,100.0,19.402,0.175,0.369,0.601,0.771,0,0
+chromium,1g,2,240,240,0,100.0,19.618,0.073,0.371,0.569,0.751,0,0
+chromium,512m,2,240,240,0,100.0,19.327,0.313,0.374,0.557,0.827,0,0
+chromium,256m,2,240,4,236,1.67,0.104,0.076,,,,198,2
+libreoffice,unlimited,2,240,240,0,100.0,7.889,0.136,0.858,1.005,1.054,0,0
+libreoffice,1g,2,240,240,0,100.0,8.036,0.19,0.857,0.946,1.019,0,0
+libreoffice,512m,2,240,240,0,100.0,8.263,0.034,0.848,0.885,0.948,0,0
+libreoffice,256m,2,240,240,0,100.0,8.224,0.096,0.846,0.921,0.924,0,0

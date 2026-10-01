@@ -5,8 +5,8 @@
 Measure how explicit container resource limits affect Gotenberg throughput,
 latency, and reliability.
 
-The experiment is intended to provide evidence for future ECS task sizing and
-Kubernetes resource requests and limits.
+The experiment is intended to provide evidence for future Kubernetes/EKS
+resource requests, limits, and scaling decisions.
 
 ## CPU Method
 
@@ -64,9 +64,103 @@ approximately halved throughput.
 These results are workload-specific local measurements and should not be
 interpreted as universal Gotenberg sizing recommendations.
 
-They will instead be used as hypotheses for later ECS and EKS experiments.
+They will instead be used as hypotheses for later Kubernetes/EKS experiments.
 
-## Memory Phase
+## Memory Method
 
-Memory-limit characterization is performed separately so CPU and memory effects
-are not intentionally varied at the same time.
+Memory was varied independently while CPU remained unlimited.
+
+Formal configurations:
+
+- unlimited
+- 1 GiB
+- 512 MiB
+- 256 MiB
+
+Each configuration was tested twice.
+
+LibreOffice used concurrency 6 and Chromium used concurrency 8, with 120
+requests per run.
+
+For memory-limited containers, Docker memory and memory-swap were set to the
+same value. On this cgroup v2 host this resulted in `memory.swap.max=0`, so
+swap could not mask memory pressure.
+
+## Memory Results
+
+| Engine | Memory | Successes | Failures | Success Rate | Mean Throughput RPS | Mean p95 s | OOM Kills |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Chromium | unlimited | 240 | 0 | 100% | 19.402 | 0.601 | 0 |
+| Chromium | 1 GiB | 240 | 0 | 100% | 19.618 | 0.569 | 0 |
+| Chromium | 512 MiB | 240 | 0 | 100% | 19.327 | 0.557 | 0 |
+| Chromium | 256 MiB | 4 | 236 | 1.67% | 0.104 | N/A | 198 |
+| LibreOffice | unlimited | 240 | 0 | 100% | 7.889 | 1.005 | 0 |
+| LibreOffice | 1 GiB | 240 | 0 | 100% | 8.036 | 0.946 | 0 |
+| LibreOffice | 512 MiB | 240 | 0 | 100% | 8.263 | 0.885 | 0 |
+| LibreOffice | 256 MiB | 240 | 0 | 100% | 8.224 | 0.921 | 0 |
+
+Successful-request latency is intentionally not reported for the Chromium
+256 MiB configuration because only four of 240 requests succeeded. Those
+latencies would not represent normal service performance.
+
+## Chromium 256 MiB Failure Characterization
+
+Both Chromium 256 MiB repetitions experienced severe request failure.
+
+Repeat 1:
+
+- 2 successful requests
+- 118 failed requests
+- 110 HTTP 503 responses
+- 8 HTTP 400 responses
+- 102 cgroup OOM-kill events
+
+Repeat 2:
+
+- 2 successful requests
+- 118 failed requests
+- 102 HTTP 503 responses
+- 16 HTTP 400 responses
+- 96 cgroup OOM-kill events
+
+The request CSV `error` field remained empty for these HTTP failures because
+the current workload generator records HTTP response failures using
+`status_code` and `success`; the error field is primarily populated for client
+exceptions.
+
+## Memory Observations
+
+For the tested small HTML workload, Chromium showed no material degradation
+between unlimited memory, 1 GiB, and 512 MiB.
+
+At 256 MiB, however, Chromium crossed a clear reliability boundary. Request
+success fell to 1.67%, and the cgroup recorded repeated OOM kills.
+
+The container was still observed in a running state after these runs despite
+severe request-level failure and OOM activity. This demonstrates why container
+state alone is insufficient as a service-health signal.
+
+LibreOffice completed all requests at every tested memory level, including
+256 MiB, for the small text fixture.
+
+These measurements are specific to this local host, fixture size, concurrency,
+Gotenberg version, and workload. They are not universal production sizing
+recommendations.
+
+## Engineering Conclusions
+
+The two conversion engines have materially different resource behavior.
+
+Chromium is strongly CPU-sensitive and substantially more memory-sensitive.
+For this workload, 512 MiB remained healthy while 256 MiB produced severe
+OOM-related service degradation.
+
+LibreOffice reached diminishing CPU returns earlier and tolerated the tested
+256 MiB memory limit without request failures.
+
+The results support treating Chromium and LibreOffice as separate workload
+classes when designing Kubernetes resource requests, limits, scaling policy,
+and failure isolation.
+
+Final Kubernetes values will be validated again under EKS rather than copied
+directly from these local measurements.

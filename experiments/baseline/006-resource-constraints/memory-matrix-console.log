@@ -1,0 +1,850 @@
+
+##############################################
+Engine:      libreoffice
+Memory:      unlimited
+Repeat:      1
+Concurrency: 6
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-unlimited-r1
+Engine:      libreoffice
+CPU limit:   unlimited
+Memory:      unlimited
+Concurrency: 6
+Requests:    120
+==============================================
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       079c9a0c
+Engine:       libreoffice
+Requests:     120
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "079c9a0c",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 15.399738,
+  "throughput_rps": 7.79234,
+  "latency_successful_s": {
+    "min": 0.093508,
+    "p50": 0.864115,
+    "p95": 1.037513,
+    "p99": 1.119718,
+    "max": 1.120738
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/libreoffice/mem-unlimited-r1/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/libreoffice/mem-unlimited-r1/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      libreoffice
+Memory:      unlimited
+Repeat:      2
+Concurrency: 6
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-unlimited-r2
+Engine:      libreoffice
+CPU limit:   unlimited
+Memory:      unlimited
+Concurrency: 6
+Requests:    120
+==============================================
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       0c8649de
+Engine:       libreoffice
+Requests:     120
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "0c8649de",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 15.027683,
+  "throughput_rps": 7.985263,
+  "latency_successful_s": {
+    "min": 0.087248,
+    "p50": 0.851443,
+    "p95": 0.973342,
+    "p99": 0.987891,
+    "max": 0.994295
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/libreoffice/mem-unlimited-r2/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/libreoffice/mem-unlimited-r2/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      libreoffice
+Memory:      1g
+Repeat:      1
+Concurrency: 6
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-1g-r1
+Engine:      libreoffice
+CPU limit:   unlimited
+Memory:      1g
+Concurrency: 6
+Requests:    120
+==============================================
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       ec14e121
+Engine:       libreoffice
+Requests:     120
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "ec14e121",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 15.185332,
+  "throughput_rps": 7.902363,
+  "latency_successful_s": {
+    "min": 0.094042,
+    "p50": 0.86878,
+    "p95": 0.973721,
+    "p99": 1.020634,
+    "max": 1.03417
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/libreoffice/mem-1g-r1/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/libreoffice/mem-1g-r1/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      libreoffice
+Memory:      1g
+Repeat:      2
+Concurrency: 6
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-1g-r2
+Engine:      libreoffice
+CPU limit:   unlimited
+Memory:      1g
+Concurrency: 6
+Requests:    120
+==============================================
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       1bf8fe97
+Engine:       libreoffice
+Requests:     120
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "1bf8fe97",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 14.687198,
+  "throughput_rps": 8.170381,
+  "latency_successful_s": {
+    "min": 0.09139,
+    "p50": 0.846061,
+    "p95": 0.918204,
+    "p99": 1.018363,
+    "max": 1.021458
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/libreoffice/mem-1g-r2/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/libreoffice/mem-1g-r2/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      libreoffice
+Memory:      512m
+Repeat:      1
+Concurrency: 6
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-512m-r1
+Engine:      libreoffice
+CPU limit:   unlimited
+Memory:      512m
+Concurrency: 6
+Requests:    120
+==============================================
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       0ee80c10
+Engine:       libreoffice
+Requests:     120
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "0ee80c10",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 14.563995,
+  "throughput_rps": 8.239497,
+  "latency_successful_s": {
+    "min": 0.088404,
+    "p50": 0.847124,
+    "p95": 0.895326,
+    "p99": 1.014218,
+    "max": 1.016522
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/libreoffice/mem-512m-r1/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/libreoffice/mem-512m-r1/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      libreoffice
+Memory:      512m
+Repeat:      2
+Concurrency: 6
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-512m-r2
+Engine:      libreoffice
+CPU limit:   unlimited
+Memory:      512m
+Concurrency: 6
+Requests:    120
+==============================================
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       009f872a
+Engine:       libreoffice
+Requests:     120
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "009f872a",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 14.479907,
+  "throughput_rps": 8.287346,
+  "latency_successful_s": {
+    "min": 0.090022,
+    "p50": 0.848819,
+    "p95": 0.875359,
+    "p99": 0.880944,
+    "max": 0.882258
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/libreoffice/mem-512m-r2/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/libreoffice/mem-512m-r2/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      libreoffice
+Memory:      256m
+Repeat:      1
+Concurrency: 6
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-256m-r1
+Engine:      libreoffice
+CPU limit:   unlimited
+Memory:      256m
+Concurrency: 6
+Requests:    120
+==============================================
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       39b33b2e
+Engine:       libreoffice
+Requests:     120
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "39b33b2e",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 14.472713,
+  "throughput_rps": 8.291466,
+  "latency_successful_s": {
+    "min": 0.088916,
+    "p50": 0.8419,
+    "p95": 0.894801,
+    "p99": 0.899747,
+    "max": 0.90168
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/libreoffice/mem-256m-r1/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/libreoffice/mem-256m-r1/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      libreoffice
+Memory:      256m
+Repeat:      2
+Concurrency: 6
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-256m-r2
+Engine:      libreoffice
+CPU limit:   unlimited
+Memory:      256m
+Concurrency: 6
+Requests:    120
+==============================================
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       a20e7225
+Engine:       libreoffice
+Requests:     120
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "a20e7225",
+  "engine": "libreoffice",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 14.713786,
+  "throughput_rps": 8.155617,
+  "latency_successful_s": {
+    "min": 0.090197,
+    "p50": 0.850479,
+    "p95": 0.946396,
+    "p99": 0.947406,
+    "max": 0.948409
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/libreoffice/mem-256m-r2/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/libreoffice/mem-256m-r2/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      chromium
+Memory:      unlimited
+Repeat:      1
+Concurrency: 8
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-unlimited-r1
+Engine:      chromium
+CPU limit:   unlimited
+Memory:      unlimited
+Concurrency: 8
+Requests:    120
+==============================================
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       8738b7c9
+Engine:       chromium
+Requests:     120
+Concurrency:  8
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "8738b7c9",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 120,
+  "concurrency": 8,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 6.224654,
+  "throughput_rps": 19.278179,
+  "latency_successful_s": {
+    "min": 0.221584,
+    "p50": 0.3708,
+    "p95": 0.639477,
+    "p99": 0.755414,
+    "max": 0.834168
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/chromium/mem-unlimited-r1/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/chromium/mem-unlimited-r1/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      chromium
+Memory:      unlimited
+Repeat:      2
+Concurrency: 8
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-unlimited-r2
+Engine:      chromium
+CPU limit:   unlimited
+Memory:      unlimited
+Concurrency: 8
+Requests:    120
+==============================================
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       9801ae85
+Engine:       chromium
+Requests:     120
+Concurrency:  8
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "9801ae85",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 120,
+  "concurrency": 8,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 6.145606,
+  "throughput_rps": 19.526145,
+  "latency_successful_s": {
+    "min": 0.215715,
+    "p50": 0.368012,
+    "p95": 0.563275,
+    "p99": 0.787564,
+    "max": 0.875836
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/chromium/mem-unlimited-r2/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/chromium/mem-unlimited-r2/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      chromium
+Memory:      1g
+Repeat:      1
+Concurrency: 8
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-1g-r1
+Engine:      chromium
+CPU limit:   unlimited
+Memory:      1g
+Concurrency: 8
+Requests:    120
+==============================================
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       2ef86ca3
+Engine:       chromium
+Requests:     120
+Concurrency:  8
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "2ef86ca3",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 120,
+  "concurrency": 8,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 6.100736,
+  "throughput_rps": 19.669758,
+  "latency_successful_s": {
+    "min": 0.227169,
+    "p50": 0.369689,
+    "p95": 0.562658,
+    "p99": 0.716735,
+    "max": 0.92377
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/chromium/mem-1g-r1/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/chromium/mem-1g-r1/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      chromium
+Memory:      1g
+Repeat:      2
+Concurrency: 8
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-1g-r2
+Engine:      chromium
+CPU limit:   unlimited
+Memory:      1g
+Concurrency: 8
+Requests:    120
+==============================================
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       2b978c90
+Engine:       chromium
+Requests:     120
+Concurrency:  8
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "2b978c90",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 120,
+  "concurrency": 8,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 6.132713,
+  "throughput_rps": 19.567195,
+  "latency_successful_s": {
+    "min": 0.218,
+    "p50": 0.373176,
+    "p95": 0.574351,
+    "p99": 0.785615,
+    "max": 0.807002
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/chromium/mem-1g-r2/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/chromium/mem-1g-r2/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      chromium
+Memory:      512m
+Repeat:      1
+Concurrency: 8
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-512m-r1
+Engine:      chromium
+CPU limit:   unlimited
+Memory:      512m
+Concurrency: 8
+Requests:    120
+==============================================
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       17f5d373
+Engine:       chromium
+Requests:     120
+Concurrency:  8
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "17f5d373",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 120,
+  "concurrency": 8,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 6.280915,
+  "throughput_rps": 19.105497,
+  "latency_successful_s": {
+    "min": 0.230668,
+    "p50": 0.371562,
+    "p95": 0.56999,
+    "p99": 0.788763,
+    "max": 0.795456
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/chromium/mem-512m-r1/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/chromium/mem-512m-r1/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      chromium
+Memory:      512m
+Repeat:      2
+Concurrency: 8
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-512m-r2
+Engine:      chromium
+CPU limit:   unlimited
+Memory:      512m
+Concurrency: 8
+Requests:    120
+==============================================
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       77de0978
+Engine:       chromium
+Requests:     120
+Concurrency:  8
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "77de0978",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 120,
+  "concurrency": 8,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 6.138568,
+  "throughput_rps": 19.548534,
+  "latency_successful_s": {
+    "min": 0.232466,
+    "p50": 0.37565,
+    "p95": 0.543455,
+    "p99": 0.864375,
+    "max": 0.972693
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/chromium/mem-512m-r2/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/chromium/mem-512m-r2/loadgen/summary.json
+RESULT: completed normally
+
+##############################################
+Engine:      chromium
+Memory:      256m
+Repeat:      1
+Concurrency: 8
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-256m-r1
+Engine:      chromium
+CPU limit:   unlimited
+Memory:      256m
+Concurrency: 8
+Requests:    120
+==============================================
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       2443f66e
+Engine:       chromium
+Requests:     120
+Concurrency:  8
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "2443f66e",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 120,
+  "concurrency": 8,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 2,
+  "failure_count": 118,
+  "success_rate_pct": 1.67,
+  "wall_time_s": 12.701217,
+  "throughput_rps": 0.157465,
+  "latency_successful_s": {
+    "min": 0.475908,
+    "p50": 1.160929,
+    "p95": 1.777448,
+    "p99": 1.83225,
+    "max": 1.84595
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/chromium/mem-256m-r1/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/chromium/mem-256m-r1/loadgen/summary.json
+RESULT: experiment returned exit code 2
+Continuing because failure may be experimental evidence.
+
+##############################################
+Engine:      chromium
+Memory:      256m
+Repeat:      2
+Concurrency: 8
+Requests:    120
+##############################################
+
+==============================================
+Experiment:  mem-256m-r2
+Engine:      chromium
+CPU limit:   unlimited
+Memory:      256m
+Concurrency: 8
+Requests:    120
+==============================================
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       986f8028
+Engine:       chromium
+Requests:     120
+Concurrency:  8
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "986f8028",
+  "engine": "chromium",
+  "target": "http://127.0.0.1:3000",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 120,
+  "concurrency": 8,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 2,
+  "failure_count": 118,
+  "success_rate_pct": 1.67,
+  "wall_time_s": 39.956113,
+  "throughput_rps": 0.050055,
+  "latency_successful_s": {
+    "min": 0.445582,
+    "p50": 0.976384,
+    "p95": 1.454106,
+    "p99": 1.49657,
+    "max": 1.507186
+  }
+}
+
+Requests: experiments/baseline/006-resource-constraints/chromium/mem-256m-r2/loadgen/requests.csv
+Summary:  experiments/baseline/006-resource-constraints/chromium/mem-256m-r2/loadgen/summary.json
+RESULT: experiment returned exit code 2
+Continuing because failure may be experimental evidence.

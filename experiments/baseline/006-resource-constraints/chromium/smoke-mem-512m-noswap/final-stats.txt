@@ -1,0 +1,2 @@
+CONTAINER ID   NAME                CPU %     MEM USAGE / LIMIT   MEM %     NET I/O          BLOCK I/O         PIDS
+1b227a2f439d   opslens-gotenberg   3.98%     171.4MiB / 512MiB   33.47%    64.5kB / 384kB   32.8kB / 20.5MB   122

@@ -7,6 +7,7 @@ ENGINE="${2:?engine required}"
 CPUS="${3:?CPU limit required, e.g. unlimited, 0.5, 1, 2}"
 CONCURRENCY="${4:?concurrency required}"
 REQUESTS="${5:-240}"
+MEMORY="${6:-unlimited}"
 
 IMAGE="gotenberg/gotenberg:8.37.0"
 CONTAINER="opslens-gotenberg"
@@ -40,6 +41,13 @@ if [[ "$CPUS" != "unlimited" ]]; then
     RUN_ARGS+=(--cpus="$CPUS")
 fi
 
+if [[ "$MEMORY" != "unlimited" ]]; then
+    RUN_ARGS+=(
+        --memory="$MEMORY"
+        --memory-swap="$MEMORY"
+    )
+fi
+
 RUN_ARGS+=("$IMAGE")
 
 echo
@@ -47,6 +55,7 @@ echo "=============================================="
 echo "Experiment:  $LABEL"
 echo "Engine:      $ENGINE"
 echo "CPU limit:   $CPUS"
+echo "Memory:      $MEMORY"
 echo "Concurrency: $CONCURRENCY"
 echo "Requests:    $REQUESTS"
 echo "=============================================="
@@ -78,6 +87,15 @@ docker inspect \
 docker exec "$CONTAINER" cat /sys/fs/cgroup/cpu.max \
     > "$OUTPUT/cpu-max.txt" 2>/dev/null || true
 
+docker exec "$CONTAINER" cat /sys/fs/cgroup/memory.max \
+    > "$OUTPUT/memory-max.txt" 2>/dev/null || true
+
+docker exec "$CONTAINER" cat /sys/fs/cgroup/memory.swap.max \
+    > "$OUTPUT/memory-swap-max.txt" 2>/dev/null || true
+
+docker exec "$CONTAINER" cat /sys/fs/cgroup/memory.events \
+    > "$OUTPUT/memory-events-before.txt" 2>/dev/null || true
+
 docker exec "$CONTAINER" cat /sys/fs/cgroup/cpu.stat \
     > "$OUTPUT/cpu-stat-before.txt" 2>/dev/null || true
 
@@ -100,11 +118,16 @@ else
     LOAD_EXIT=$?
 fi
 
+printf '%s\n' "$LOAD_EXIT" > "$OUTPUT/loadgen-exit-code.txt"
+
 kill "$SAMPLER_PID" >/dev/null 2>&1 || true
 wait "$SAMPLER_PID" >/dev/null 2>&1 || true
 
 docker exec "$CONTAINER" cat /sys/fs/cgroup/cpu.stat \
     > "$OUTPUT/cpu-stat-after.txt" 2>/dev/null || true
+
+docker exec "$CONTAINER" cat /sys/fs/cgroup/memory.events \
+    > "$OUTPUT/memory-events-after.txt" 2>/dev/null || true
 
 docker inspect \
     --format 'status={{.State.Status}} oom_killed={{.State.OOMKilled}} exit_code={{.State.ExitCode}}' \
