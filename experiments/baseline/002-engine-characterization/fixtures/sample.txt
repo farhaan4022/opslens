@@ -1,0 +1,8 @@
+OpsLens
+
+Experiment 002 - LibreOffice Workload Characterization
+
+This document is converted to PDF through the Gotenberg LibreOffice engine.
+
+The purpose of this fixture is to establish basic conversion behaviour before
+we introduce concurrency, larger documents, resource limits or failure tests.
