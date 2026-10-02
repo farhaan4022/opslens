@@ -12,7 +12,7 @@ metadata:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
     alb.ingress.kubernetes.io/inbound-cidrs: "__ALLOWED_INGRESS_CIDR__"
 
-    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
     alb.ingress.kubernetes.io/success-codes: "200"
@@ -33,6 +33,6 @@ spec:
 
             backend:
               service:
-                name: gotenberg
+                name: envoy-gateway
                 port:
-                  number: 3000
+                  number: 8080
