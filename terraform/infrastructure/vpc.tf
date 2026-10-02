@@ -1,5 +1,4 @@
 resource "aws_vpc" "main" {
-
   cidr_block = "10.0.0.0/16"
 
   enable_dns_support   = true
@@ -11,9 +10,7 @@ resource "aws_vpc" "main" {
   }
 }
 
-
 resource "aws_internet_gateway" "main" {
-
   vpc_id = aws_vpc.main.id
 
   tags = {
@@ -22,62 +19,62 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-
 resource "aws_subnet" "public_a" {
-
   vpc_id = aws_vpc.main.id
 
-  cidr_block = "10.0.1.0/24"
-
+  cidr_block        = "10.0.1.0/24"
   availability_zone = "${var.aws_region}a"
 
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.project_name}-public-a"
+    Name                                            = "${var.project_name}-public-a"
+    Project                                         = var.project_name
+    "kubernetes.io/role/elb"                        = "1"
+    "kubernetes.io/cluster/${var.project_name}-eks" = "shared"
   }
 }
-
 
 resource "aws_subnet" "public_b" {
-
   vpc_id = aws_vpc.main.id
 
-  cidr_block = "10.0.2.0/24"
-
+  cidr_block        = "10.0.2.0/24"
   availability_zone = "${var.aws_region}b"
 
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.project_name}-public-b"
+    Name                                            = "${var.project_name}-public-b"
+    Project                                         = var.project_name
+    "kubernetes.io/role/elb"                        = "1"
+    "kubernetes.io/cluster/${var.project_name}-eks" = "shared"
   }
 }
 
-
 resource "aws_subnet" "private_a" {
-
   vpc_id = aws_vpc.main.id
 
-  cidr_block = "10.0.10.0/24"
-
+  cidr_block        = "10.0.10.0/24"
   availability_zone = "${var.aws_region}a"
 
   tags = {
-    Name = "${var.project_name}-private-a"
+    Name                                            = "${var.project_name}-private-a"
+    Project                                         = var.project_name
+    "kubernetes.io/role/internal-elb"               = "1"
+    "kubernetes.io/cluster/${var.project_name}-eks" = "shared"
   }
 }
 
-
 resource "aws_subnet" "private_b" {
-
   vpc_id = aws_vpc.main.id
 
-  cidr_block = "10.0.20.0/24"
-
+  cidr_block        = "10.0.20.0/24"
   availability_zone = "${var.aws_region}b"
 
   tags = {
-    Name = "${var.project_name}-private-b"
+    Name                                            = "${var.project_name}-private-b"
+    Project                                         = var.project_name
+    "kubernetes.io/role/internal-elb"               = "1"
+    "kubernetes.io/cluster/${var.project_name}-eks" = "shared"
   }
 }
