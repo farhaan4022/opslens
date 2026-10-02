@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gotenberg-libreoffice
+  namespace: opslens
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  selector:
+    matchLabels:
+      app: gotenberg-libreoffice
+  template:
+    metadata:
+      labels:
+        app: gotenberg-libreoffice
+        engine: libreoffice
+    spec:
+      containers:
+        - name: gotenberg
+          image: 743502211832.dkr.ecr.ap-south-1.amazonaws.com/opslens/gotenberg@sha256:3fdee07e0dcd5005c3db4d81d1600d081fc6fb424da87e409e1c1f9624a249b8
+          args:
+            - gotenberg
+            - --chromium-disable-routes
+          ports:
+            - name: http
+              containerPort: 3000
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 2
+            timeoutSeconds: 2
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gotenberg-libreoffice
+  namespace: opslens
+spec:
+  type: ClusterIP
+  selector:
+    app: gotenberg-libreoffice
+  ports:
+    - name: http
+      port: 3000
+      targetPort: http
