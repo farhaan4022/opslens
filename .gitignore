@@ -32,3 +32,6 @@ tmp/
 # Local Terraform values
 terraform.tfvars
 *.auto.tfvars
+
+# Raw experiment logs may contain client IP addresses
+experiments/**/cloudwatch-logs.json

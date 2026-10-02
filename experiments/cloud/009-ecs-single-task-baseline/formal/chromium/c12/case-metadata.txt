@@ -1,0 +1,12 @@
+engine=chromium
+concurrency=12
+requests=60
+warmup_requests=1
+queue_sample_interval_s=0.25
+target=http://opslens-alb-1492874197.ap-south-1.elb.amazonaws.com
+started_ms=1790970052744
+started_utc=2026-10-02T19:40:52Z
+ended_ms=1790970078308
+ended_utc=2026-10-02T19:41:18Z
+loadgen_exit_code=0
+queue_samples=56

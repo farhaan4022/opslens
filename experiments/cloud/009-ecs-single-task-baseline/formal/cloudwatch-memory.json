@@ -1,0 +1,47 @@
+{
+    "Label": "MemoryUtilization",
+    "Datapoints": [
+        {
+            "Timestamp": "2026-10-02T19:42:00Z",
+            "Average": 12.581380208333334,
+            "Maximum": 13.232421875,
+            "Unit": "Percent"
+        },
+        {
+            "Timestamp": "2026-10-02T19:38:00Z",
+            "Average": 14.046223958333334,
+            "Maximum": 14.9658203125,
+            "Unit": "Percent"
+        },
+        {
+            "Timestamp": "2026-10-02T19:43:00Z",
+            "Average": 12.451171875,
+            "Maximum": 13.818359375,
+            "Unit": "Percent"
+        },
+        {
+            "Timestamp": "2026-10-02T19:39:00Z",
+            "Average": 13.077799479166666,
+            "Maximum": 14.7705078125,
+            "Unit": "Percent"
+        },
+        {
+            "Timestamp": "2026-10-02T19:40:00Z",
+            "Average": 15.787760416666666,
+            "Maximum": 17.7978515625,
+            "Unit": "Percent"
+        },
+        {
+            "Timestamp": "2026-10-02T19:41:00Z",
+            "Average": 14.225260416666666,
+            "Maximum": 15.52734375,
+            "Unit": "Percent"
+        },
+        {
+            "Timestamp": "2026-10-02T19:37:00Z",
+            "Average": 12.79296875,
+            "Maximum": 12.890625,
+            "Unit": "Percent"
+        }
+    ]
+}

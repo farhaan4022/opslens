@@ -1,0 +1,111 @@
+{
+    "services": [
+        {
+            "serviceArn": "arn:aws:ecs:ap-south-1:743502211832:service/opslens-cluster/opslens-gotenberg",
+            "serviceName": "opslens-gotenberg",
+            "clusterArn": "arn:aws:ecs:ap-south-1:743502211832:cluster/opslens-cluster",
+            "loadBalancers": [
+                {
+                    "targetGroupArn": "arn:aws:elasticloadbalancing:ap-south-1:743502211832:targetgroup/opslens-gotenberg/dfb97ba0057172cb",
+                    "containerName": "gotenberg",
+                    "containerPort": 3000
+                }
+            ],
+            "serviceRegistries": [],
+            "status": "ACTIVE",
+            "desiredCount": 1,
+            "runningCount": 1,
+            "pendingCount": 0,
+            "launchType": "FARGATE",
+            "platformVersion": "LATEST",
+            "platformFamily": "Linux",
+            "taskDefinition": "arn:aws:ecs:ap-south-1:743502211832:task-definition/opslens-gotenberg:1",
+            "deploymentConfiguration": {
+                "deploymentCircuitBreaker": {
+                    "enable": true,
+                    "rollback": true
+                },
+                "maximumPercent": 200,
+                "minimumHealthyPercent": 100
+            },
+            "deployments": [
+                {
+                    "id": "ecs-svc/3244295029352682372",
+                    "status": "PRIMARY",
+                    "taskDefinition": "arn:aws:ecs:ap-south-1:743502211832:task-definition/opslens-gotenberg:1",
+                    "desiredCount": 1,
+                    "pendingCount": 0,
+                    "runningCount": 1,
+                    "failedTasks": 0,
+                    "createdAt": 1790966701.186,
+                    "updatedAt": 1790966814.8,
+                    "launchType": "FARGATE",
+                    "platformVersion": "1.4.0",
+                    "platformFamily": "Linux",
+                    "networkConfiguration": {
+                        "awsvpcConfiguration": {
+                            "subnets": [
+                                "subnet-07b3e5afc8392cb49",
+                                "subnet-064798025d5304cde"
+                            ],
+                            "securityGroups": [
+                                "sg-02e6e4bd4489d9247"
+                            ],
+                            "assignPublicIp": "DISABLED"
+                        }
+                    },
+                    "rolloutState": "COMPLETED",
+                    "rolloutStateReason": "ECS deployment ecs-svc/3244295029352682372 completed."
+                }
+            ],
+            "roleArn": "arn:aws:iam::743502211832:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS",
+            "events": [
+                {
+                    "id": "070c26db-f050-4b09-a0fc-66e944320a78",
+                    "createdAt": 1790966768.574,
+                    "message": "(service opslens-gotenberg) has reached a steady state."
+                },
+                {
+                    "id": "8bcb5ab6-9e84-4e89-a2f9-9ed04c024e7b",
+                    "createdAt": 1790966768.573,
+                    "message": "(service opslens-gotenberg) (deployment ecs-svc/3244295029352682372) deployment completed."
+                },
+                {
+                    "id": "19bb3063-48a9-488b-baa5-3b3c4c96bfff",
+                    "createdAt": 1790966758.852,
+                    "message": "(service opslens-gotenberg) registered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:743502211832:targetgroup/opslens-gotenberg/dfb97ba0057172cb)"
+                },
+                {
+                    "id": "1c7e26ff-917f-486d-a476-68b82b6cff90",
+                    "createdAt": 1790966717.277,
+                    "message": "(service opslens-gotenberg) has started 1 tasks: (task 9a0ccb86e8f4457ab203a48a160414fe)."
+                }
+            ],
+            "createdAt": 1790966701.186,
+            "placementConstraints": [],
+            "placementStrategy": [],
+            "networkConfiguration": {
+                "awsvpcConfiguration": {
+                    "subnets": [
+                        "subnet-07b3e5afc8392cb49",
+                        "subnet-064798025d5304cde"
+                    ],
+                    "securityGroups": [
+                        "sg-02e6e4bd4489d9247"
+                    ],
+                    "assignPublicIp": "DISABLED"
+                }
+            },
+            "healthCheckGracePeriodSeconds": 30,
+            "schedulingStrategy": "REPLICA",
+            "deploymentController": {
+                "type": "ECS"
+            },
+            "createdBy": "arn:aws:iam::743502211832:user/opslens-infra-admin",
+            "enableECSManagedTags": false,
+            "propagateTags": "NONE",
+            "enableExecuteCommand": false
+        }
+    ],
+    "failures": []
+}

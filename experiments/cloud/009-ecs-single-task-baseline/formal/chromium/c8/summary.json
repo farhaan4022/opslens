@@ -1,0 +1,23 @@
+{
+  "run_id": "422c8bda",
+  "engine": "chromium",
+  "target": "http://opslens-alb-1492874197.ap-south-1.elb.amazonaws.com",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 60,
+  "concurrency": 8,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 60,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 22.807959,
+  "throughput_rps": 2.630661,
+  "latency_successful_s": {
+    "min": 1.300282,
+    "p50": 2.781691,
+    "p95": 4.130776,
+    "p99": 4.386846,
+    "max": 4.402947
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "run_id": "3483a4ad",
+  "engine": "libreoffice",
+  "target": "http://opslens-alb-1492874197.ap-south-1.elb.amazonaws.com",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 60,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 60,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 11.881359,
+  "throughput_rps": 5.049927,
+  "latency_successful_s": {
+    "min": 0.695404,
+    "p50": 1.448476,
+    "p95": 1.524421,
+    "p99": 1.534803,
+    "max": 1.536315
+  }
+}

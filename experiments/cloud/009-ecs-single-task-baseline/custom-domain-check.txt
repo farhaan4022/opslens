@@ -1,0 +1,11 @@
+Custom hostname: www.farhaanbr.changeip.co
+
+DNS:
+opslens-alb-1492874197.ap-south-1.elb.amazonaws.com.
+13.127.9.234
+52.66.4.7
+
+Health:
+{"status":"up","details":{"chromium":{"status":"up","timestamp":"2026-10-02T19:20:00.449698276Z"},"libreoffice":{"status":"up","timestamp":"2026-10-02T19:20:00.449693847Z"}}}
+Version:
+8.37.0
