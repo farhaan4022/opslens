@@ -1,0 +1,105 @@
+Usage of gotenberg:
+      --api-bind-ip string                              Set the IP address the API should bind to for incoming connections
+      --api-body-limit string                           Set the body limit for multipart/form-data requests - it accepts values like 5MB, 1GB, etc
+      --api-correlation-id-header string                Set the header name to use for identifying requests (default "Gotenberg-Trace")
+      --api-disable-debug-route-telemetry               Disable telemetry for the debug route (default true)
+      --api-disable-download-from                       Disable the download from feature
+      --api-disable-health-check-route-telemetry        Disable telemetry for health check route (default true)
+      --api-disable-root-route-telemetry                Disable telemetry for the root route (default true)
+      --api-disable-version-route-telemetry             Disable telemetry for the version route (default true)
+      --api-download-from-allow-list strings            Set the allowed URLs for the download from feature using regular expressions - supports multiple values. A match bypasses --api-download-from-deny-private-ips (API_DOWNLOAD_FROM_DENY_PRIVATE_IPS) and --api-download-from-deny-public-ips (API_DOWNLOAD_FROM_DENY_PUBLIC_IPS), so terminate the host or the pattern also matches suffix hosts, for example ^https?://internal\.svc(:|/|$)
+      --api-download-from-deny-list strings             Set the denied URLs for the download from feature using regular expressions - supports multiple values
+      --api-download-from-deny-private-ips              Reject downloadFrom URLs whose host resolves to a non-public IP address (loopback, RFC1918, link-local, unique-local). Enable on deployments that accept untrusted downloadFrom sources to mitigate SSRF against internal services
+      --api-download-from-deny-public-ips               Reject downloadFrom URLs whose host resolves to a public IP address. Enable on air-gapped or data-governed deployments to prevent downloads from reaching the public internet
+      --api-download-from-enable-environment-proxy      Route downloadFrom fetches through the proxy defined by the standard HTTP_PROXY, HTTPS_PROXY, and NO_PROXY variables, including credentials
+      --api-download-from-max-concurrency int           Set the maximum number of downloadFrom entries fetched concurrently per request - bounds the outbound fan-out. Set to 0 to disable this feature (default 10)
+      --api-download-from-max-entries int               Set the maximum number of downloadFrom entries allowed per request. Set to 0 to disable this feature
+      --api-download-from-max-retry int                 Set the maximum number of retries for the download from feature (default 4)
+      --api-enable-basic-auth                           Enable basic authentication - will look for the GOTENBERG_API_BASIC_AUTH_USERNAME and GOTENBERG_API_BASIC_AUTH_PASSWORD environment variables
+      --api-enable-debug-route                          Enable the debug route
+      --api-enable-oidc-auth                            Enable OIDC bearer token authentication - mutually exclusive with basic authentication
+      --api-oidc-audience string                        Set the expected OIDC audience - the token 'aud' claim must contain it
+      --api-oidc-issuer string                          Set the OIDC issuer URL, e.g. https://tenant.example.com/ - the token 'iss' claim must match
+      --api-oidc-jwks-url string                        Set the OIDC JWKS URL - discovered from the issuer's well-known configuration when empty
+      --api-port int                                    Set the port on which the API should listen (default 3000)
+      --api-port-from-env string                        Set the environment variable with the port on which the API should listen - override the default port
+      --api-root-path string                            Set the root path of the API - for service discovery via URL paths (default "/")
+      --api-start-timeout duration                      Set the time limit for the API to start (default 30s)
+      --api-timeout duration                            Set the time limit for requests (default 30s)
+      --api-tls-cert-file string                        Path to the TLS/SSL certificate file - for HTTPS support
+      --api-tls-key-file string                         Path to the TLS/SSL key file - for HTTPS support
+      --chromium-allow-file-access-from-files           Allow file:// URIs to read other file:// URIs
+      --chromium-allow-insecure-localhost               Ignore TLS/SSL errors on localhost
+      --chromium-allow-list strings                     Set the allowed URLs for Chromium using regular expressions - supports multiple values. A match bypasses --chromium-deny-private-ips (CHROMIUM_DENY_PRIVATE_IPS) and --chromium-deny-public-ips (CHROMIUM_DENY_PUBLIC_IPS), so terminate the host or the pattern also matches suffix hosts, for example ^https?://internal\.svc(:|/|$)
+      --chromium-auto-start                             Automatically launch Chromium upon initialization if set to true; otherwise, Chromium will start at the time of the first conversion
+      --chromium-clear-cache                            Clear Chromium cache between each conversion
+      --chromium-clear-cookies                          Clear Chromium cookies between each conversion
+      --chromium-clear-storage                          Clear Chromium local storage between each conversion (session storage is already isolated per conversion)
+      --chromium-deny-list strings                      Set the denied URLs for Chromium using regular expressions - supports multiple values (default [^file:(?!//\/tmp/).*])
+      --chromium-deny-private-ips                       Reject URLs whose host resolves to a non-public IP address (loopback, RFC1918, link-local, unique-local). Enable on deployments that accept untrusted form input to mitigate SSRF against internal services
+      --chromium-deny-public-ips                        Reject URLs whose host resolves to a public IP address. Enable on air-gapped or data-governed deployments to prevent outbound traffic from leaving a private network
+      --chromium-disable-javascript                     Disable JavaScript
+      --chromium-disable-routes                         Disable the routes
+      --chromium-disable-web-security                   Don't enforce the same-origin policy
+      --chromium-enable-environment-proxy               Route Chromium's outbound requests through the proxy defined by the standard HTTP_PROXY, HTTPS_PROXY, and NO_PROXY variables, including credentials. Use this instead of --chromium-proxy-server for authenticated proxies, and leave --chromium-proxy-server and --chromium-host-resolver-rules unset
+      --chromium-host-resolver-rules string             Set custom mappings to the host resolver
+      --chromium-idle-shutdown-timeout duration         Shutdown Chromium after being idle for the given duration. Set to 0 to disable this feature
+      --chromium-ignore-certificate-errors              Ignore the certificate errors
+      --chromium-max-concurrency int                    Maximum number of concurrent conversions. Chromium supports up to 6 (default 6)
+      --chromium-max-queue-size int                     Maximum request queue size for Chromium. Set to 0 to disable this feature
+      --chromium-proxy-server string                    Set the outbound proxy server; this switch only affects HTTP and HTTPS requests
+      --chromium-restart-after int                      Number of conversions after which Chromium will automatically restart. Set to 0 to disable this feature (default 100)
+      --chromium-start-timeout duration                 Maximum duration to wait for Chromium to start or restart (default 20s)
+      --gotenberg-build-debug-data                      Set if build data is needed (default true)
+      --gotenberg-graceful-shutdown-duration duration   Set the graceful shutdown duration (default 30s)
+      --gotenberg-hide-banner                           Hide the banner
+      --libreoffice-allow-list strings                  Set the allowed URLs for LibreOffice outbound fetches (embedded images, linked content) using regular expressions - supports multiple values. A match bypasses --libreoffice-deny-private-ips (LIBREOFFICE_DENY_PRIVATE_IPS) and --libreoffice-deny-public-ips (LIBREOFFICE_DENY_PUBLIC_IPS), so terminate the host or the pattern also matches suffix hosts, for example ^https?://internal\.svc(:|/|$)
+      --libreoffice-auto-start                          Automatically launch LibreOffice upon initialization if set to true; otherwise, LibreOffice will start at the time of the first conversion
+      --libreoffice-deny-list strings                   Set the denied URLs for LibreOffice outbound fetches using regular expressions - supports multiple values
+      --libreoffice-deny-private-ips                    Reject LibreOffice outbound URLs whose host resolves to a non-public IP address (loopback, RFC1918, link-local, unique-local). Enable on deployments that accept untrusted documents to mitigate SSRF against internal services
+      --libreoffice-deny-public-ips                     Reject LibreOffice outbound URLs whose host resolves to a public IP address. Enable on air-gapped or data-governed deployments to prevent outbound traffic from leaving a private network
+      --libreoffice-disable-routes                      Disable the routes
+      --libreoffice-enable-environment-proxy            Route LibreOffice outbound fetches through the proxy defined by the standard HTTP_PROXY, HTTPS_PROXY, and NO_PROXY variables, including credentials
+      --libreoffice-idle-shutdown-timeout duration      Shutdown LibreOffice after being idle for the given duration. Set to 0 to disable this feature
+      --libreoffice-max-queue-size int                  Maximum request queue size for LibreOffice. Set to 0 to disable this feature
+      --libreoffice-restart-after int                   Number of conversions after which LibreOffice will automatically restart. Set to 0 to disable this feature (default 10)
+      --libreoffice-start-timeout duration              Maximum duration to wait for LibreOffice to start or restart (default 20s)
+      --log-fields-prefix string                        Prepend a specified prefix to each log field key
+      --log-level string                                Set the log level (default "info")
+      --log-std-enable-gcp-fields                       Use GCP-compatible field names in log output
+      --log-std-format string                           Set the log format for standard output (default "auto")
+      --log-std-level-case string                       Set the case of the level field in the standard output, either lower or upper (default "lower")
+      --pdfengines-convert-engines strings              Set the PDF engines and their order for the convert feature - empty means all (default [libreoffice-pdfengine])
+      --pdfengines-disable-routes                       Disable the routes
+      --pdfengines-embed-engines strings                Set the PDF engines and their order for the file embedding feature - empty means all (default [pdfcpu])
+      --pdfengines-embed-metadata-engines strings       Set the PDF engines and their order for the embed metadata feature - empty means all (default [qpdf])
+      --pdfengines-encrypt-engines strings              Set the PDF engines and their order for the password protection feature - empty means all (default [qpdf,pdftk,pdfcpu])
+      --pdfengines-factur-x-engines strings             Set the PDF engines and their order for the Factur-X XMP feature - empty means all (default [qpdf])
+      --pdfengines-flatten-engines strings              Set the PDF engines and their order for the flatten feature - empty means all (default [qpdf])
+      --pdfengines-max-concurrency int                  Set the maximum number of PDF files a feature processes concurrently, across all requests - bounds how many qpdf, pdfcpu, pdftk and exiftool processes run at once, so raising it trades memory for speed. Does not apply to LibreOffice: scale Gotenberg containers instead (default 1)
+      --pdfengines-merge-engines strings                Set the PDF engines and their order for the merge feature - empty means all (default [qpdf,pdfcpu,pdftk])
+      --pdfengines-optimize-images-engines strings      Set the PDF engines and their order for the image optimization feature - empty means all (default [pdfcpu])
+      --pdfengines-read-bookmarks-engines strings       Set the PDF engines and their order for the read bookmarks feature - empty means all (default [pdfcpu])
+      --pdfengines-read-metadata-engines strings        Set the PDF engines and their order for the read metadata feature - empty means all (default [exiftool])
+      --pdfengines-rotate-engines strings               Set the PDF engines and their order for the rotate feature - empty means all (default [pdfcpu,pdftk])
+      --pdfengines-split-engines strings                Set the PDF engines and their order for the split feature - empty means all (default [pdfcpu,qpdf,pdftk])
+      --pdfengines-stamp-engines strings                Set the PDF engines and their order for the stamp feature - empty means all (default [pdfcpu,pdftk])
+      --pdfengines-watermark-engines strings            Set the PDF engines and their order for the watermark feature - empty means all (default [pdfcpu,pdftk])
+      --pdfengines-write-bookmarks-engines strings      Set the PDF engines and their order for the write bookmarks feature - empty means all (default [pdfcpu])
+      --pdfengines-write-metadata-engines strings       Set the PDF engines and their order for the write metadata feature - empty means all (default [exiftool])
+      --prometheus-collect-interval duration            Set the interval for collecting modules' metrics (default 1s)
+      --prometheus-disable-collect                      Disable the collect of metrics
+      --prometheus-disable-route-telemetry              Disable telemetry for the Prometheus metrics route (default true)
+      --prometheus-metrics-path string                  Path for Prometheus metrics endpoint (default "/prometheus/metrics")
+      --prometheus-namespace string                     Set the namespace of modules' metrics (default "gotenberg")
+      --webhook-allow-list strings                      Set the allowed URLs for the webhook feature using regular expressions - supports multiple values. A match bypasses --webhook-deny-private-ips (WEBHOOK_DENY_PRIVATE_IPS) and --webhook-deny-public-ips (WEBHOOK_DENY_PUBLIC_IPS), so terminate the host or the pattern also matches suffix hosts, for example ^https?://internal\.svc(:|/|$)
+      --webhook-client-timeout duration                 Set the time limit for requests to the webhook (default 30s)
+      --webhook-deny-list strings                       Set the denied URLs for the webhook feature using regular expressions - supports multiple values
+      --webhook-deny-private-ips                        Reject webhook URLs whose host resolves to a non-public IP address (loopback, RFC1918, link-local, unique-local). Enable on deployments that accept untrusted webhook destinations to mitigate SSRF against internal services
+      --webhook-deny-public-ips                         Reject webhook URLs whose host resolves to a public IP address. Enable on air-gapped or data-governed deployments to prevent callbacks from leaving a private network
+      --webhook-disable                                 Disable the webhook feature
+      --webhook-enable-environment-proxy                Route webhook callbacks through the proxy defined by the standard HTTP_PROXY, HTTPS_PROXY, and NO_PROXY variables, including credentials
+      --webhook-enable-sync-mode                        Enable synchronous mode for the webhook feature
+      --webhook-max-retry int                           Set the maximum number of retries for the webhook feature (default 4)
+      --webhook-retry-max-wait duration                 Set the maximum duration to wait before trying to call the webhook again (default 30s)
+      --webhook-retry-min-wait duration                 Set the minimum duration to wait before trying to call the webhook again (default 1s)
