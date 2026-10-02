@@ -1,0 +1,17 @@
+NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                                                                                                                                    SELECTOR
+deployment.apps/envoy-gateway              1/1     1            1           60m     envoy        envoyproxy/envoy:v1.39.1                                                                                                                  app=envoy-gateway
+deployment.apps/gotenberg                  0/0     0            0           143m    gotenberg    743502211832.dkr.ecr.ap-south-1.amazonaws.com/opslens/gotenberg@sha256:3fdee07e0dcd5005c3db4d81d1600d081fc6fb424da87e409e1c1f9624a249b8   app=gotenberg
+deployment.apps/gotenberg-chromium         0/0     0            0           81m     gotenberg    743502211832.dkr.ecr.ap-south-1.amazonaws.com/opslens/gotenberg@sha256:3fdee07e0dcd5005c3db4d81d1600d081fc6fb424da87e409e1c1f9624a249b8   app=gotenberg-chromium
+deployment.apps/gotenberg-libreoffice      0/0     0            0           81m     gotenberg    743502211832.dkr.ecr.ap-south-1.amazonaws.com/opslens/gotenberg@sha256:3fdee07e0dcd5005c3db4d81d1600d081fc6fb424da87e409e1c1f9624a249b8   app=gotenberg-libreoffice
+deployment.apps/gotenberg-shared-control   1/1     1            1           4m30s   gotenberg    743502211832.dkr.ecr.ap-south-1.amazonaws.com/opslens/gotenberg@sha256:3fdee07e0dcd5005c3db4d81d1600d081fc6fb424da87e409e1c1f9624a249b8   app=gotenberg-shared-control
+
+NAME                                            READY   STATUS    RESTARTS   AGE     IP           NODE                                         NOMINATED NODE   READINESS GATES
+pod/envoy-gateway-7f969598bb-76j6s              1/1     Running   0          4m9s    10.0.20.55   ip-10-0-20-251.ap-south-1.compute.internal   <none>           <none>
+pod/gotenberg-shared-control-76fb7b9548-k9t4s   1/1     Running   0          4m31s   10.0.20.59   ip-10-0-20-251.ap-south-1.compute.internal   <none>           <none>
+
+NAME                               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE     SELECTOR
+service/envoy-gateway              ClusterIP   172.20.43.215    <none>        8080/TCP   60m     app=envoy-gateway
+service/gotenberg                  ClusterIP   172.20.99.212    <none>        3000/TCP   145m    app=gotenberg
+service/gotenberg-chromium         ClusterIP   172.20.170.146   <none>        3000/TCP   81m     app=gotenberg-chromium
+service/gotenberg-libreoffice      ClusterIP   172.20.60.35     <none>        3000/TCP   81m     app=gotenberg-libreoffice
+service/gotenberg-shared-control   ClusterIP   172.20.84.176    <none>        3000/TCP   4m31s   app=gotenberg-shared-control
