@@ -9,3 +9,8 @@ variable "project_name" {
   type        = string
   default     = "opslens"
 }
+
+variable "allowed_ingress_cidr" {
+  description = "CIDR allowed to access the public ALB"
+  type        = string
+}

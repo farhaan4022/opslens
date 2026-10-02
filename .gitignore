@@ -28,3 +28,7 @@ tmp/
 
 # Terraform saved plans
 *.plan
+
+# Local Terraform values
+terraform.tfvars
+*.auto.tfvars
