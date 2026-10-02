@@ -30,3 +30,13 @@ output "ecs_cluster_name" {
   description = "OpsLens ECS cluster name"
   value       = aws_ecs_cluster.main.name
 }
+
+output "alb_dns_name" {
+  description = "Public DNS name of the OpsLens application load balancer"
+  value       = aws_lb.main.dns_name
+}
+
+output "gotenberg_image_digest" {
+  description = "ECR image digest used by the ECS task definition"
+  value       = data.aws_ecr_image.gotenberg.image_digest
+}
