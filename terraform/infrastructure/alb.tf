@@ -1,8 +1,13 @@
 resource "aws_lb" "main" {
+  count = var.ecs_alb_enabled ? 1 : 0
+
   name               = "${var.project_name}-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb.id]
+
+  security_groups = [
+    aws_security_group.alb.id
+  ]
 
   subnets = [
     aws_subnet.public_a.id,
@@ -15,6 +20,8 @@ resource "aws_lb" "main" {
 }
 
 resource "aws_lb_target_group" "gotenberg" {
+  count = var.ecs_alb_enabled ? 1 : 0
+
   name        = "${var.project_name}-gotenberg"
   port        = 3000
   protocol    = "HTTP"
@@ -38,12 +45,14 @@ resource "aws_lb_target_group" "gotenberg" {
 }
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.main.arn
+  count = var.ecs_alb_enabled ? 1 : 0
+
+  load_balancer_arn = aws_lb.main[0].arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.gotenberg.arn
+    target_group_arn = aws_lb_target_group.gotenberg[0].arn
   }
 }

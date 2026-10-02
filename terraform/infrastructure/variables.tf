@@ -50,3 +50,9 @@ variable "eks_node_max_size" {
   type        = number
   default     = 2
 }
+
+variable "ecs_alb_enabled" {
+  description = "Whether to provision the legacy ECS application load balancer"
+  type        = bool
+  default     = false
+}

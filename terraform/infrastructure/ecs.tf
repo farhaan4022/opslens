@@ -72,7 +72,7 @@ resource "aws_ecs_service" "gotenberg" {
   desired_count = var.ecs_desired_count
   launch_type   = "FARGATE"
 
-  health_check_grace_period_seconds = 30
+  health_check_grace_period_seconds = var.ecs_alb_enabled ? 30 : 0
 
   network_configuration {
     subnets = [
@@ -87,10 +87,14 @@ resource "aws_ecs_service" "gotenberg" {
     assign_public_ip = false
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.gotenberg.arn
-    container_name   = "gotenberg"
-    container_port   = 3000
+  dynamic "load_balancer" {
+    for_each = var.ecs_alb_enabled ? [1] : []
+
+    content {
+      target_group_arn = aws_lb_target_group.gotenberg[0].arn
+      container_name   = "gotenberg"
+      container_port   = 3000
+    }
   }
 
   deployment_circuit_breaker {

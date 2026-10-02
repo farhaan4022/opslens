@@ -4,7 +4,7 @@ output "vpc_id" {
 }
 
 output "public_subnet_ids" {
-  description = "Public subnet IDs used by the load balancer"
+  description = "Public subnet IDs"
 
   value = [
     aws_subnet.public_a.id,
@@ -13,7 +13,7 @@ output "public_subnet_ids" {
 }
 
 output "private_subnet_ids" {
-  description = "Private subnet IDs used by ECS workloads"
+  description = "Private subnet IDs"
 
   value = [
     aws_subnet.private_a.id,
@@ -32,11 +32,11 @@ output "ecs_cluster_name" {
 }
 
 output "alb_dns_name" {
-  description = "Public DNS name of the OpsLens application load balancer"
-  value       = aws_lb.main.dns_name
+  description = "Legacy ECS ALB DNS name when enabled"
+  value       = var.ecs_alb_enabled ? aws_lb.main[0].dns_name : null
 }
 
 output "gotenberg_image_digest" {
-  description = "ECR image digest used by the ECS task definition"
+  description = "ECR image digest used by the Gotenberg workload"
   value       = data.aws_ecr_image.gotenberg.image_digest
 }
