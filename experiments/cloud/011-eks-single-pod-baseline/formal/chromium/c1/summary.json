@@ -1,0 +1,23 @@
+{
+  "run_id": "e63e346f",
+  "engine": "chromium",
+  "target": "http://opslens-eks-gotenberg-29688764.ap-south-1.elb.amazonaws.com",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 60,
+  "concurrency": 1,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 60,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 31.319999,
+  "throughput_rps": 1.915709,
+  "latency_successful_s": {
+    "min": 0.436559,
+    "p50": 0.484567,
+    "p95": 0.624976,
+    "p99": 1.275508,
+    "max": 2.11614
+  }
+}

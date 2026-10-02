@@ -1,0 +1,14 @@
+engine=chromium
+concurrency=6
+requests=60
+warmup_requests=1
+queue_sample_interval_s=0.25
+resource_sample_interval_s=5
+started_ms=1790977890951
+started_utc=2026-10-02T21:51:30Z
+target=http://opslens-eks-gotenberg-29688764.ap-south-1.elb.amazonaws.com
+ended_ms=1790977912793
+ended_utc=2026-10-02T21:51:52Z
+loadgen_exit_code=0
+queue_samples=44
+resource_samples=4

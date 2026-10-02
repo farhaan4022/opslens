@@ -1,0 +1,2 @@
+NAME                         CPU(cores)   MEMORY(bytes)   
+gotenberg-7dc7875c4f-j79sx   339m         246Mi           

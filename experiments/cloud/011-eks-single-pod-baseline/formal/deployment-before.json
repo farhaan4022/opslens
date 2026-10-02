@@ -1,0 +1,132 @@
+{
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+        "annotations": {
+            "deployment.kubernetes.io/revision": "1",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"gotenberg\",\"namespace\":\"opslens\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"gotenberg\"}},\"strategy\":{\"rollingUpdate\":{\"maxSurge\":1,\"maxUnavailable\":0},\"type\":\"RollingUpdate\"},\"template\":{\"metadata\":{\"labels\":{\"app\":\"gotenberg\"}},\"spec\":{\"containers\":[{\"image\":\"743502211832.dkr.ecr.ap-south-1.amazonaws.com/opslens/gotenberg@sha256:3fdee07e0dcd5005c3db4d81d1600d081fc6fb424da87e409e1c1f9624a249b8\",\"livenessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/health\",\"port\":\"http\"},\"periodSeconds\":20,\"timeoutSeconds\":2},\"name\":\"gotenberg\",\"ports\":[{\"containerPort\":3000,\"name\":\"http\"}],\"readinessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/health\",\"port\":\"http\"},\"periodSeconds\":10,\"timeoutSeconds\":2},\"resources\":{\"limits\":{\"cpu\":\"1\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"500m\",\"memory\":\"512Mi\"}},\"startupProbe\":{\"failureThreshold\":30,\"httpGet\":{\"path\":\"/health\",\"port\":\"http\"},\"periodSeconds\":2,\"timeoutSeconds\":2}}],\"terminationGracePeriodSeconds\":30}}}}\n"
+        },
+        "creationTimestamp": "2026-10-02T21:05:08Z",
+        "generation": 1,
+        "name": "gotenberg",
+        "namespace": "opslens",
+        "resourceVersion": "2147",
+        "uid": "1297ccc3-33f0-43ff-82f6-4398485acb48"
+    },
+    "spec": {
+        "progressDeadlineSeconds": 600,
+        "replicas": 1,
+        "revisionHistoryLimit": 10,
+        "selector": {
+            "matchLabels": {
+                "app": "gotenberg"
+            }
+        },
+        "strategy": {
+            "rollingUpdate": {
+                "maxSurge": 1,
+                "maxUnavailable": 0
+            },
+            "type": "RollingUpdate"
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "app": "gotenberg"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "image": "743502211832.dkr.ecr.ap-south-1.amazonaws.com/opslens/gotenberg@sha256:3fdee07e0dcd5005c3db4d81d1600d081fc6fb424da87e409e1c1f9624a249b8",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/health",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 20,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 2
+                        },
+                        "name": "gotenberg",
+                        "ports": [
+                            {
+                                "containerPort": 3000,
+                                "name": "http",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/health",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 2
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "1",
+                                "memory": "2Gi"
+                            },
+                            "requests": {
+                                "cpu": "500m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "startupProbe": {
+                            "failureThreshold": 30,
+                            "httpGet": {
+                                "path": "/health",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 2,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 2
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File"
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "terminationGracePeriodSeconds": 30
+            }
+        }
+    },
+    "status": {
+        "availableReplicas": 1,
+        "conditions": [
+            {
+                "lastTransitionTime": "2026-10-02T21:05:24Z",
+                "lastUpdateTime": "2026-10-02T21:05:24Z",
+                "message": "Deployment has minimum availability.",
+                "reason": "MinimumReplicasAvailable",
+                "status": "True",
+                "type": "Available"
+            },
+            {
+                "lastTransitionTime": "2026-10-02T21:05:08Z",
+                "lastUpdateTime": "2026-10-02T21:05:24Z",
+                "message": "ReplicaSet \"gotenberg-7dc7875c4f\" has successfully progressed.",
+                "reason": "NewReplicaSetAvailable",
+                "status": "True",
+                "type": "Progressing"
+            }
+        ],
+        "observedGeneration": 1,
+        "readyReplicas": 1,
+        "replicas": 1,
+        "terminatingReplicas": 0,
+        "updatedReplicas": 1
+    }
+}

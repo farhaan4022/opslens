@@ -1,0 +1,12 @@
+# HELP gotenberg_chromium_requests_queue_size Current number of Chromium conversion requests waiting to be treated.
+# TYPE gotenberg_chromium_requests_queue_size gauge
+gotenberg_chromium_requests_queue_size 0
+# HELP gotenberg_chromium_restarts_count Current number of Chromium restarts.
+# TYPE gotenberg_chromium_restarts_count gauge
+gotenberg_chromium_restarts_count 2
+# HELP gotenberg_libreoffice_requests_queue_size Current number of LibreOffice conversion requests waiting to be treated.
+# TYPE gotenberg_libreoffice_requests_queue_size gauge
+gotenberg_libreoffice_requests_queue_size 0
+# HELP gotenberg_libreoffice_restarts_count Current number of LibreOffice restarts.
+# TYPE gotenberg_libreoffice_restarts_count gauge
+gotenberg_libreoffice_restarts_count 0

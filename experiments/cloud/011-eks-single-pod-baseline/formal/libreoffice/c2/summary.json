@@ -1,0 +1,23 @@
+{
+  "run_id": "026fdb4c",
+  "engine": "libreoffice",
+  "target": "http://opslens-eks-gotenberg-29688764.ap-south-1.elb.amazonaws.com",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 60,
+  "concurrency": 2,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 60,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 12.01842,
+  "throughput_rps": 4.992337,
+  "latency_successful_s": {
+    "min": 0.302158,
+    "p50": 0.316181,
+    "p95": 0.735911,
+    "p99": 0.757524,
+    "max": 0.765739
+  }
+}

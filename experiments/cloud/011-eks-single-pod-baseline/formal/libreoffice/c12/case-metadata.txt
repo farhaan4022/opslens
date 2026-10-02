@@ -1,0 +1,14 @@
+engine=libreoffice
+concurrency=12
+requests=60
+warmup_requests=1
+queue_sample_interval_s=0.25
+resource_sample_interval_s=5
+started_ms=1790978127729
+started_utc=2026-10-02T21:55:27Z
+target=http://opslens-eks-gotenberg-29688764.ap-south-1.elb.amazonaws.com
+ended_ms=1790978142641
+ended_utc=2026-10-02T21:55:42Z
+loadgen_exit_code=0
+queue_samples=28
+resource_samples=2
