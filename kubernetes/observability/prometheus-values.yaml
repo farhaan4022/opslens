@@ -98,3 +98,196 @@ scrapeConfigs:
     static_configs:
       - targets:
           - gotenberg-libreoffice.opslens.svc.cluster.local:3000
+
+# OpsLens reliability SLIs and alerts.
+# Short-window evaluation is intentional for the portfolio lab;
+# Prometheus retention is currently six hours.
+serverFiles:
+  recording_rules.yml:
+    groups:
+      - name: opslens-sli-recording
+        interval: 15s
+        rules:
+          - record: opslens:upstream_request_rate:5m
+            expr: |
+              sum(
+                rate(
+                  envoy_cluster_upstream_rq_total{
+                    job="opslens-envoy"
+                  }[5m]
+                )
+              )
+
+          - record: opslens:upstream_5xx_rate:5m
+            expr: |
+              sum(
+                rate(
+                  envoy_cluster_upstream_rq_xx{
+                    job="opslens-envoy",
+                    envoy_response_code_class="5"
+                  }[5m]
+                )
+              )
+              or vector(0)
+
+          - record: opslens:upstream_success_ratio:5m
+            expr: |
+              (
+                1 -
+                (
+                  (
+                    sum(
+                      rate(
+                        envoy_cluster_upstream_rq_xx{
+                          job="opslens-envoy",
+                          envoy_response_code_class="5"
+                        }[5m]
+                      )
+                    )
+                    or vector(0)
+                  )
+                  /
+                  clamp_min(
+                    sum(
+                      rate(
+                        envoy_cluster_upstream_rq_total{
+                          job="opslens-envoy"
+                        }[5m]
+                      )
+                    ),
+                    0.001
+                  )
+                )
+              )
+              and on()
+              (
+                sum(
+                  rate(
+                    envoy_cluster_upstream_rq_total{
+                      job="opslens-envoy"
+                    }[5m]
+                  )
+                ) > 0
+              )
+
+          - record: opslens:upstream_p95_ms:5m
+            expr: |
+              histogram_quantile(
+                0.95,
+                sum by (le, envoy_cluster_name) (
+                  rate(
+                    envoy_cluster_upstream_rq_time_bucket{
+                      job="opslens-envoy"
+                    }[5m]
+                  )
+                )
+              )
+
+  alerting_rules.yml:
+    groups:
+      - name: opslens-operational-alerts
+        rules:
+          - alert: OpsLensScrapeTargetDown
+            expr: |
+              up{
+                job=~"opslens-(envoy|chromium|libreoffice)"
+              } == 0
+            for: 30s
+            labels:
+              severity: critical
+              service: opslens
+            annotations:
+              summary: "OpsLens Prometheus target is down"
+              description: "Prometheus cannot scrape {{ $labels.job }} at {{ $labels.instance }}."
+
+          - alert: OpsLensUpstream5xxHigh
+            expr: |
+              (
+                (
+                  sum(
+                    rate(
+                      envoy_cluster_upstream_rq_xx{
+                        job="opslens-envoy",
+                        envoy_response_code_class="5"
+                      }[2m]
+                    )
+                  )
+                  or vector(0)
+                )
+                /
+                clamp_min(
+                  sum(
+                    rate(
+                      envoy_cluster_upstream_rq_total{
+                        job="opslens-envoy"
+                      }[2m]
+                    )
+                  ),
+                  0.001
+                )
+              ) > 0.01
+              and
+              sum(
+                rate(
+                  envoy_cluster_upstream_rq_total{
+                    job="opslens-envoy"
+                  }[2m]
+                )
+              ) > 0.1
+            for: 1m
+            labels:
+              severity: critical
+              service: opslens
+            annotations:
+              summary: "OpsLens upstream 5xx ratio is above 1%"
+              description: "The two-minute upstream server-error ratio has exceeded 1%."
+
+          - alert: OpsLensUpstreamLatencyHigh
+            expr: |
+              opslens:upstream_p95_ms:5m > 5000
+            for: 2m
+            labels:
+              severity: warning
+              service: opslens
+            annotations:
+              summary: "OpsLens upstream p95 latency is above 5 seconds"
+              description: "Five-minute upstream p95 latency has remained above 5000 ms."
+
+          - alert: OpsLensEngineQueueBacklog
+            expr: |
+              max(
+                gotenberg_chromium_requests_queue_size{
+                  job="opslens-chromium"
+                }
+                or
+                gotenberg_libreoffice_requests_queue_size{
+                  job="opslens-libreoffice"
+                }
+              ) > 2
+            for: 1m
+            labels:
+              severity: warning
+              service: opslens
+            annotations:
+              summary: "OpsLens conversion-engine queue is backing up"
+              description: "A Chromium or LibreOffice request queue has remained above two requests."
+
+          - alert: OpsLensEngineRestarted
+            expr: |
+              increase(
+                gotenberg_chromium_restarts_count{
+                  job="opslens-chromium"
+                }[5m]
+              ) > 0
+              or
+              increase(
+                gotenberg_libreoffice_restarts_count{
+                  job="opslens-libreoffice"
+                }[5m]
+              ) > 0
+            labels:
+              severity: warning
+              service: opslens
+            annotations:
+              summary: "OpsLens conversion engine restarted"
+              description: "Gotenberg reported a Chromium or LibreOffice engine restart during the last five minutes."
