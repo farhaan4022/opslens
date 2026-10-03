@@ -1,0 +1,83 @@
+replicas: 1
+
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: false
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 512Mi
+
+testFramework:
+  enabled: false
+
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+
+    datasources:
+      - name: Prometheus
+        uid: prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-server.observability.svc.cluster.local
+        isDefault: true
+        editable: false
+
+        jsonData:
+          httpMethod: POST
+          timeInterval: 5s
+
+grafana.ini:
+  analytics:
+    reporting_enabled: false
+    check_for_updates: false
+
+  users:
+    default_theme: dark
+
+  server:
+    enable_gzip: true
+
+  security:
+    cookie_secure: false
+
+  dashboards:
+    min_refresh_interval: 5s
+
+  plugins:
+    preinstall_disabled: true
+    preinstall_auto_update: false
+    plugin_admin_enabled: false
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+    labelValue: "1"
+    searchNamespace: observability
+
+    provider:
+      allowUiUpdates: false
+      disableDelete: false
+      foldersFromFilesStructure: false
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi

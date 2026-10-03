@@ -1,0 +1,100 @@
+alertmanager:
+  enabled: false
+
+prometheus-pushgateway:
+  enabled: false
+
+kube-state-metrics:
+  enabled: true
+
+  resources:
+    requests:
+      cpu: 25m
+      memory: 48Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+prometheus-node-exporter:
+  enabled: true
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 24Mi
+    limits:
+      cpu: 50m
+      memory: 64Mi
+
+configmapReload:
+  prometheus:
+    enabled: true
+
+    resources:
+      requests:
+        cpu: 5m
+        memory: 16Mi
+      limits:
+        cpu: 50m
+        memory: 64Mi
+
+server:
+  replicaCount: 1
+
+  retention: "6h"
+  retentionSize: "1GB"
+
+  global:
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    evaluation_interval: 15s
+
+  persistentVolume:
+    enabled: false
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 768Mi
+
+  service:
+    type: ClusterIP
+
+scrapeConfigs:
+
+  opslens-chromium:
+    enabled: true
+    job_name: opslens-chromium
+    scrape_interval: 5s
+    scrape_timeout: 4s
+    metrics_path: /prometheus/metrics
+
+    static_configs:
+      - targets:
+          - gotenberg-chromium.opslens.svc.cluster.local:3000
+
+
+  opslens-envoy:
+    enabled: true
+    job_name: opslens-envoy
+    scrape_interval: 5s
+    scrape_timeout: 4s
+    metrics_path: /stats/prometheus
+
+    static_configs:
+      - targets:
+          - envoy-admin.opslens.svc.cluster.local:9901
+
+  opslens-libreoffice:
+    enabled: true
+    job_name: opslens-libreoffice
+    scrape_interval: 5s
+    scrape_timeout: 4s
+    metrics_path: /prometheus/metrics
+
+    static_configs:
+      - targets:
+          - gotenberg-libreoffice.opslens.svc.cluster.local:3000
