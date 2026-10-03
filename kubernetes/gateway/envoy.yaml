@@ -127,7 +127,7 @@ metadata:
   name: envoy-gateway
   namespace: opslens
 spec:
-  replicas: 1
+  replicas: 2
 
   strategy:
     type: RollingUpdate
@@ -146,6 +146,16 @@ spec:
         component: gateway
 
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: envoy-gateway
+                topologyKey: kubernetes.io/hostname
+
       containers:
         - name: envoy
           image: envoyproxy/envoy:v1.39.1
@@ -236,3 +246,14 @@ spec:
       port: 9901
       targetPort: 9901
       protocol: TCP
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: envoy-gateway
+  namespace: opslens
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: envoy-gateway
