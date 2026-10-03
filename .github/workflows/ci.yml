@@ -1,0 +1,151 @@
+name: OpsLens CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: opslens-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  terraform:
+    name: Terraform validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.14.3
+
+      - name: Terraform format
+        run: terraform fmt -check -recursive terraform
+
+      - name: Initialize bootstrap configuration
+        run: terraform -chdir=terraform/bootstrap init -backend=false
+
+      - name: Validate bootstrap configuration
+        run: terraform -chdir=terraform/bootstrap validate
+
+      - name: Initialize infrastructure configuration
+        run: terraform -chdir=terraform/infrastructure init -backend=false
+
+      - name: Validate infrastructure configuration
+        run: terraform -chdir=terraform/infrastructure validate
+
+  kubernetes:
+    name: Kubernetes validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: v1.35.0
+
+      - name: Validate application manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          manifests=(
+            kubernetes/base/gotenberg/namespace.yaml
+            kubernetes/base/gotenberg/deployment.yaml
+            kubernetes/base/gotenberg/service.yaml
+            kubernetes/engines/chromium.yaml
+            kubernetes/engines/libreoffice.yaml
+            kubernetes/gateway/envoy.yaml
+            kubernetes/observability/namespace.yaml
+            kubernetes/observability/storageclass-gp3.yaml
+            kubernetes/observability/dashboard-configmap.yaml
+            kubernetes/observability/logs-dashboard-configmap.yaml
+            kubernetes/validation/webhook-receiver.yaml
+          )
+
+          for manifest in "${manifests[@]}"; do
+            echo "Validating $manifest"
+
+            kubectl apply \
+              --dry-run=client \
+              --validate=false \
+              -f "$manifest" \
+              >/dev/null
+          done
+
+      - name: Validate Grafana dashboard JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python3 -m json.tool \
+            kubernetes/observability/dashboards/opslens-overview.json \
+            >/dev/null
+
+          python3 -m json.tool \
+            kubernetes/observability/dashboards/opslens-logs.json \
+            >/dev/null
+
+  scripts:
+    name: Script validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate shell scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          while IFS= read -r -d '' script; do
+            echo "Checking $script"
+            bash -n "$script"
+          done < <(
+            find scripts \
+              -type f \
+              -name '*.sh' \
+              -print0
+          )
+
+  repository:
+    name: Repository hygiene
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check prohibited generated or sensitive files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          bad_files="$(
+            git ls-files \
+              | grep -E \
+                '(^|/)\.terraform/|\.tfstate($|\.)|\.tfplan$|terraform\.tfvars$' \
+              || true
+          )"
+
+          if [[ -n "$bad_files" ]]; then
+            echo "ERROR: prohibited files are tracked:"
+            echo "$bad_files"
+            exit 1
+          fi
+
+          echo "Repository hygiene check passed."
