@@ -1,0 +1,35 @@
+Warming libreoffice with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       ba82ec93
+Engine:       libreoffice
+Requests:     600
+Concurrency:  12
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/sample.txt
+
+{
+  "run_id": "ba82ec93",
+  "engine": "libreoffice",
+  "target": "http://opslens-eks-gotenberg-29688764.ap-south-1.elb.amazonaws.com",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/sample.txt",
+  "request_count": 600,
+  "concurrency": 12,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 600,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 134.213893,
+  "throughput_rps": 4.470476,
+  "latency_successful_s": {
+    "min": 0.309968,
+    "p50": 2.675822,
+    "p95": 3.471893,
+    "p99": 3.572316,
+    "max": 4.545674
+  }
+}
+
+Requests: experiments/cloud/013-eks-autoscaling/results/queue-aware/libreoffice/requests.csv
+Summary:  experiments/cloud/013-eks-autoscaling/results/queue-aware/libreoffice/summary.json
