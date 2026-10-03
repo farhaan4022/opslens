@@ -1,321 +1,313 @@
 # OpsLens
 
-Reliability, overload, and failure engineering for a document-processing workload on AWS and Kubernetes.
+**Reliability, overload, failure engineering, observability, and GitOps for a real document-processing workload on AWS and Kubernetes.**
 
-OpsLens uses the open-source Gotenberg document conversion service as a real production-style workload and follows a measurement-first SRE engineering cycle:
+OpsLens uses the open-source **Gotenberg** workload to study how Chromium and LibreOffice behave under concurrency, resource pressure, scaling, mixed traffic, and controlled failures. The project follows a measurement-first SRE loop:
 
 **Baseline → Observe → Hypothesize → Change → Test → Measure → Compare**
-
-The goal is not to demonstrate a collection of DevOps tools. The goal is to understand how a real service behaves under concurrency, resource pressure, scaling events, mixed workloads, failures, recovery, and operational change.
 
 <p align="center">
   <img src="docs/assets/opslens-architecture.png" alt="OpsLens architecture" width="100%" />
 </p>
 
-## What OpsLens Demonstrates
+---
 
-- Local workload characterization before cloud migration
+## What this project demonstrates
+
+- Local workload characterization before introducing cloud complexity
 - ECS/Fargate baseline and horizontal-scaling experiments
 - EKS migration and workload isolation
 - CPU HPA versus queue-aware autoscaling
-- Metrics, logs, dashboards, SLIs, and alerts
+- Prometheus metrics, Grafana dashboards, Loki logs, and OpenTelemetry collection
+- Reliability recording rules and alert validation
 - Controlled Kubernetes failure injection
 - Persistent Loki storage through EBS CSI
-- Durable conversion-result validation through S3
-- Asynchronous webhook delivery validation
+- Durable PDF result validation through encrypted/versioned S3
+- Asynchronous webhook validation
 - GitHub Actions repository validation
 - Argo CD GitOps reconciliation and self-healing
-- Availability hardening based on a measured failure
+- Gateway high-availability hardening based on a measured failure
 
-## Architecture at a Glance
+---
 
-The final active request path is:
+## Key measured results
 
-`Client → AWS ALB → Envoy Gateway x2 → Chromium / LibreOffice Gotenberg engines`
+| Engineering question | Result |
+|---|---|
+| How differently do the two engines behave? | Local saturation was roughly **19 RPS Chromium** vs **8 RPS LibreOffice** |
+| Does ECS horizontal scaling help? | 2-task ECS improved throughput by **+93.9% Chromium** and **+85.3% LibreOffice** |
+| Does workload isolation reduce interference? | Chromium mixed-load degradation improved from **21.1% → 4.8%** |
+| Is CPU the best scaling signal? | CPU HPA scale decision: **36.6s**; queue-aware: **2.55s** |
+| How fast was the second replica usable? | CPU HPA: **55.1s**; queue-aware: **5.3s** |
+| What happened when the only Envoy failed? | **86/90** requests succeeded |
+| What happened after gateway HA hardening? | **90/90** succeeded in the repeated controlled failure test |
 
-The supporting platform is intentionally bounded:
+These are bounded lab measurements, not universal production guarantees.
 
-- **Prometheus** for metrics
-- **Grafana** for visualization
-- **Loki** for persistent logs
-- **OpenTelemetry Collector** for Kubernetes log collection/enrichment
-- **CloudWatch** for AWS/EKS infrastructure and control-plane visibility
-- **S3** for short-lived durable-result validation artifacts
-- **Argo CD** for the active OpsLens application boundary
-- **Terraform** for AWS infrastructure
+---
 
-Distributed tracing was deliberately deferred rather than adding another system without a strong engineering requirement.
+## Visual experiment evidence
 
-See [Architecture](docs/architecture/architecture.md) for the detailed design and ownership boundaries.
+### Workload isolation
 
-## Key Engineering Results
+The mixed-load experiment showed that isolating Chromium and LibreOffice improved predictability and reduced cross-engine interference.
 
-### Local workload characterization
-
-The two conversion engines behaved differently under load:
-
-- Chromium plateaued at roughly **19 requests/second** in the local concurrency experiment.
-- LibreOffice plateaued at roughly **8 requests/second**.
-- Chromium was more CPU-sensitive.
-- Very low Chromium memory limits produced severe OOM behavior.
-- Mixed workloads interfered with one another when sharing the same runtime boundary.
-
-These observations motivated workload isolation instead of treating all document conversions as one homogeneous workload.
-
-### ECS horizontal scaling
-
-Scaling the ECS service from one task to two tasks produced the following controlled-lab results:
-
-- Chromium throughput: **+93.9%**
-- Chromium p95 latency: **-41.2%**
-- LibreOffice throughput: **+85.3%**
-- LibreOffice p95 latency: **-43.9%**
-- Requests completed: **720/720**
-
-These are bounded experiment results, not generalized cloud-platform capacity claims.
-
-### EKS workload isolation
-
-Separating Chromium and LibreOffice into independent Kubernetes Deployments and Services improved predictability under mixed load.
-
-| Engine | Shared runtime degradation | Isolated runtime degradation |
-|---|---:|---:|
-| Chromium | ~21.1% | ~4.8% |
-| LibreOffice | ~50.7% | ~38.1% |
-
-Isolation reduced interference, although it did not automatically maximize aggregate throughput.
+<p align="center">
+  <img src="docs/evidence/screenshots/experiments/mixed-workload-isolation.png" alt="Mixed workload isolation experiment" width="78%" />
+</p>
 
 ### Autoscaling control loop
 
-OpsLens compared CPU HPA with a custom queue-aware scaler.
+Queue-aware scaling reacted much earlier than CPU HPA, while also demonstrating that faster scaling decisions do not automatically remove downstream application bottlenecks.
 
-| Measurement | CPU HPA | Queue-aware scaler |
-|---|---:|---:|
-| Scale decision | ~36.6 s | ~2.55 s |
-| Second replica Ready | ~55.1 s | ~5.3 s |
+<p align="center">
+  <img src="docs/evidence/screenshots/experiments/autoscaling-comparison.png" alt="CPU HPA versus queue-aware autoscaling" width="86%" />
+</p>
 
-The queue-aware signal reacted substantially earlier. The experiment also demonstrated an important SRE principle: **a faster scaling decision does not automatically guarantee better end-to-end performance when another workload bottleneck remains.**
+### ECS horizontal scaling
 
-## Observability and Reliability Signals
+<p align="center">
+  <img src="docs/evidence/screenshots/experiments/ecs-horizontal-scaling.png" alt="ECS horizontal scaling results" width="58%" />
+</p>
 
-The observability scope is intentionally small and explicit:
+---
 
-| Concern | Tool |
-|---|---|
-| AWS/EKS infrastructure | CloudWatch |
-| Metrics | Prometheus |
-| Logs | Loki |
-| Kubernetes log collection | OpenTelemetry Collector |
-| Visualization | Grafana |
+## Observability
 
-Prometheus recording rules cover:
+The observability boundary is intentionally small:
 
-- upstream request rate
-- upstream 5xx rate
-- upstream success ratio
-- upstream p95 latency
+- **Prometheus** — application and gateway metrics
+- **Grafana** — metrics and log visualization
+- **Loki** — persistent Kubernetes/application logs
+- **OpenTelemetry Collector** — Kubernetes log collection and enrichment
+- **CloudWatch** — AWS/EKS infrastructure and control-plane visibility
 
-Alerts cover:
+Distributed tracing was deliberately deferred rather than adding another system without a strong requirement.
 
-- scrape-target loss
-- upstream 5xx rate
-- excessive upstream latency
-- engine queue backlog
-- engine restart activity
+### Grafana workload view
 
-Zero-traffic behavior is explicitly handled so an idle period is not reported as a synthetic 100% success ratio.
+<p align="center">
+  <img src="docs/evidence/screenshots/observability/grafana-overview.png" alt="OpsLens Grafana overview" width="100%" />
+</p>
 
-## Failure Engineering
+### Real application and gateway logs
 
-OpsLens injects failures instead of assuming Kubernetes recovery is enough.
+<p align="center">
+  <img src="docs/evidence/screenshots/observability/grafana-logs.png" alt="OpsLens logs in Grafana and Loki" width="100%" />
+</p>
+
+### Prometheus alert validation
+
+The alerting experiment intentionally made an OpsLens scrape target unavailable and verified that `OpsLensScrapeTargetDown` moved to **FIRING**.
+
+<p align="center">
+  <img src="docs/evidence/screenshots/observability/prometheus-alert-firing.png" alt="Prometheus alert firing" width="100%" />
+</p>
+
+Recording rules and the full alert set are captured in the [visual evidence gallery](docs/evidence/screenshots/README.md).
+
+---
+
+## Failure engineering and production hardening
+
+OpsLens deliberately injected failures rather than assuming Kubernetes recovery was sufficient.
 
 ### Chromium pod deletion
 
-During a 90-request probe:
-
-- Successful: **89/90**
-- Failed: **1**
-- Success rate: **98.89%**
-
-Kubernetes recreated the engine pod and request processing recovered.
+- 90 requests
+- 89 successful
+- 1 failed
+- **98.89% success**
 
 ### Single Envoy gateway deletion
 
 Before hardening:
 
-- Successful: **86/90**
-- Failed: **4**
-- Success rate: **95.56%**
+- 90 requests
+- 86 successful
+- 4 failed
+- **95.56% success**
 
-This exposed the single Envoy replica as a real availability weakness.
+This made the single gateway a measured availability weakness.
 
-Evidence: [`docs/evidence/016-failure-engineering/`](docs/evidence/016-failure-engineering/)
+### Hardening change
 
-## Production Availability Hardening
-
-The gateway was changed to:
+The final gateway uses:
 
 - **2 Envoy replicas**
-- preferred pod anti-affinity across worker nodes
-- `PodDisruptionBudget` with `minAvailable: 1`
-- Git-managed desired state reconciled by Argo CD
+- preferred pod anti-affinity using `kubernetes.io/hostname`
+- PodDisruptionBudget with `minAvailable: 1`
+- replicas placed on separate worker nodes
 
-The same failure class was then retested.
+The repeated failure test completed:
 
-| Experiment | Envoy replicas | Requests | Successful | Failed | Success rate |
-|---|---:|---:|---:|---:|---:|
-| Before hardening | 1 | 90 | 86 | 4 | 95.56% |
-| After hardening | 2 | 90 | 90 | 0 | 100.00% |
+- 90 requests
+- 90 successful
+- 0 failed
+- **100.00% in that controlled run**
 
-In this controlled lab run, gateway redundancy eliminated the request failures observed during the earlier single-replica test. This is a bounded result, not a universal zero-downtime claim.
+### Final Kubernetes state
 
-Evidence: [`docs/evidence/019-production-hardening/`](docs/evidence/019-production-hardening/)
+<p align="center">
+  <img src="docs/evidence/screenshots/kubernetes/final-cluster-state.png" alt="Final OpsLens Kubernetes state" width="100%" />
+</p>
 
-## Durable Result Validation
+<p align="center">
+  <img src="docs/evidence/screenshots/kubernetes/envoy-ha-pdb-storage.png" alt="Envoy HA, PDB, storage and Argo state" width="100%" />
+</p>
 
-A real conversion path is validated end to end:
+---
 
-`HTML → Envoy → Gotenberg Chromium → PDF → private S3 → independent download → SHA-256 comparison`
+## GitOps
 
-The harness validates:
+Argo CD owns the active application boundary defined by `kubernetes/kustomization.yaml`.
 
-- HTTP conversion success
-- PDF file signature
-- PDF size
-- SHA-256 checksum
-- S3 AES256 server-side encryption
-- S3 versioning
-- independent re-download
-- checksum equality after download
+It manages:
 
-A separate experiment validates Gotenberg asynchronous webhook delivery and request/callback correlation.
-
-Evidence: [`docs/evidence/017-durable-validation/`](docs/evidence/017-durable-validation/)
-
-## CI/CD and GitOps
-
-### GitHub Actions
-
-Repository CI validates:
-
-- Terraform formatting and configuration
-- Kubernetes manifests
-- shell-script syntax
-- Grafana dashboard JSON
-- repository hygiene
-
-CI intentionally does not require production AWS or EKS credentials.
-
-### Argo CD
-
-Argo CD manages only the active OpsLens application boundary:
-
-- OpsLens Namespace
+- OpsLens namespace
 - Envoy ConfigMap
-- Envoy Deployment
-- Envoy Services
+- Envoy Deployment and Services
 - Envoy PodDisruptionBudget
 - Chromium Deployment and Service
 - LibreOffice Deployment and Service
 
-Observability and temporary validation resources remain outside this Argo application by design.
+Observability Helm releases and temporary validation resources remain outside the Argo application.
 
-GitOps self-healing was tested by manually changing the Envoy replica count. Argo restored the Git-defined desired state and returned the application to **Synced / Healthy**.
+### Argo CD resource tree
 
-## Infrastructure Ownership
+<p align="center">
+  <img src="docs/evidence/screenshots/gitops/argocd-resource-tree.png" alt="Argo CD OpsLens resource tree" width="100%" />
+</p>
+
+### Self-healing proof
+
+A live replica-count drift was deliberately introduced. Argo reconciled the live Deployment back to the Git-defined desired state.
+
+See:
+- `docs/evidence/screenshots/gitops/argocd-reconciliation.png`
+- `docs/evidence/screenshots/gitops/argocd-self-heal.png`
+
+### GitHub Actions CI
+
+The final CI run passed all four repository validation jobs:
+
+- Terraform validation
+- Kubernetes validation
+- Script validation
+- Repository hygiene
+
+<p align="center">
+  <img src="docs/evidence/screenshots/gitops/github-actions-ci-green.png" alt="GitHub Actions OpsLens CI successful run" width="100%" />
+</p>
+
+---
+
+## Durable result validation
+
+OpsLens validates a real data path:
+
+`HTML → Envoy → Gotenberg Chromium → PDF → private S3 → independent download → SHA-256 verification`
+
+The validation harness checks:
+
+- successful conversion response
+- `%PDF-` signature
+- file size
+- SHA-256 checksum
+- S3 AES256 server-side encryption
+- object versioning
+- independent re-download
+- exact checksum match
+
+A separate asynchronous experiment validates Gotenberg webhook delivery.
+
+---
+
+## Infrastructure ownership
 
 | Layer | Owner |
 |---|---|
 | AWS infrastructure | Terraform |
-| Observability platform components | Helm |
-| Argo CD installation | Helm |
-| Active OpsLens application | Argo CD + Kubernetes manifests |
+| Prometheus / Grafana / Loki / OTel / Argo installation | Helm |
+| Active OpsLens application | Argo CD / Kubernetes manifests |
 | Repository validation | GitHub Actions |
 
-The project deliberately avoids giving multiple tools competing ownership of the same resource.
+This prevents multiple tools from silently competing for the same resources.
 
-## Security Decisions
+---
 
-Selected controls include:
-
-- private EKS worker subnets
-- restricted EKS API access
-- restricted ALB ingress
-- separate IAM roles by responsibility
-- IRSA for AWS Load Balancer Controller
-- IRSA for EBS CSI
-- private Grafana access through localhost port-forwarding
-- Envoy admin interface exposed only through ClusterIP
-- private S3 results bucket
-- S3 public-access blocking
-- server-side encryption
-- S3 versioning and lifecycle expiration
-- reduced Envoy Linux capabilities
-- no application credentials committed to Git
-
-See [Security and Cost Notes](docs/security-cost.md).
-
-## Repository Structure
+## Repository structure
 
 ```text
 .
-├── .github/workflows/       GitHub Actions CI
+├── .github/workflows/             CI validation
 ├── docs/
-│   ├── adr/                 Architecture decisions
-│   ├── architecture/        Architecture documentation
-│   ├── assets/              README / architecture visuals
-│   ├── evidence/            Failure and reliability evidence
-│   └── runbooks/            Operational procedures
+│   ├── adr/                       architecture decisions
+│   ├── architecture/              detailed architecture
+│   ├── assets/                    architecture graphic
+│   ├── evidence/
+│   │   └── screenshots/           curated visual evidence
+│   └── runbooks/                  debugging and teardown procedures
 ├── experiments/
-│   ├── baseline/            Local experiments 001-008
-│   └── cloud/               ECS/EKS experiments 009-013
+│   ├── baseline/                  local experiments 001-008
+│   └── cloud/                     ECS/EKS experiments 009-013
 ├── kubernetes/
-│   ├── base/
 │   ├── engines/
 │   ├── gateway/
 │   ├── gitops/
 │   ├── observability/
 │   └── validation/
-├── scripts/                 Validation harnesses
+├── scripts/                       validation harnesses
 ├── terraform/
 │   ├── bootstrap/
 │   └── infrastructure/
-└── tools/                   Load, metrics, scaling, lifecycle tooling
+└── tools/                         load, scaling and metrics tooling
 ```
 
-## Experiment Progression
+---
 
-| Experiment | Focus |
+## Experiment progression
+
+| Phase | Focus |
 |---|---|
 | 001-008 | Local workload characterization |
 | 009 | ECS single-task baseline |
 | 010 | ECS horizontal scaling |
 | 011 | EKS single-pod baseline |
 | 012 | Mixed-workload isolation |
-| 013 | CPU HPA versus queue-aware autoscaling |
+| 013 | CPU HPA vs queue-aware autoscaling |
 | 014 | Metrics and log observability |
-| 015 | Reliability SLIs and alerting |
+| 015 | Reliability recording rules and alerts |
 | 016 | Kubernetes failure engineering |
 | 017 | Durable and asynchronous result validation |
 | 018 | CI/CD and GitOps |
 | 019 | Production availability hardening |
 
-See [Evidence Index](docs/evidence/README.md).
+See the detailed [Evidence Index](docs/evidence/README.md) and [Visual Evidence Gallery](docs/evidence/screenshots/README.md).
 
-## Scope and Limitations
+---
 
-OpsLens is an engineering lab, not a claim of production certification.
+## Security and scope
 
-Important boundaries:
+Selected controls include:
 
-- results are controlled experiments rather than universal capacity guarantees
-- short-window reliability indicators are used because the lab does not retain production-length telemetry
-- the environment uses a deliberately small EKS node group
-- distributed tracing was intentionally deferred
-- the project focuses on reliability engineering rather than application feature development
+- private EKS worker subnets
+- restricted cluster/API access
+- restricted ALB ingress
+- separate IAM responsibilities
+- IRSA for AWS-integrated controllers
+- private Grafana access through localhost port-forwarding
+- internal-only Envoy admin Service
+- private S3 result bucket with encryption/versioning/lifecycle
+- reduced Envoy Linux capabilities
+- no credentials committed to Git
 
-## Workload Attribution
+OpsLens is an engineering lab, not a claim of production certification. Results are controlled experiments and are intentionally reported with their limits.
 
-OpsLens uses Gotenberg as the upstream document-processing workload.
+---
 
-See [ATTRIBUTION.md](ATTRIBUTION.md) for attribution details.
+## Workload attribution
+
+OpsLens uses the open-source **Gotenberg** project as the upstream workload. Original project work focuses on infrastructure, reliability, scaling, observability, fault experiments, automation, and measurable operational improvements.
+
+See [ATTRIBUTION.md](ATTRIBUTION.md).
