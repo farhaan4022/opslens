@@ -1,0 +1,34 @@
+=== OpsLens Webhook Validation ===
+Experiment ID : 017b-20261003T114644Z
+
+[1/5] Starting Envoy port-forward...
+      Envoy reachable.
+
+[2/5] Submitting asynchronous conversion...
+      Initial HTTP status: 204
+
+[3/5] Waiting for callback...
+      Callback received.
+
+[4/5] Validating callback payload...
+      trace_match        PASS
+      pdf_signature      PASS
+      content_type_pdf   PASS
+      nonzero_bytes      PASS
+      sha256_present     PASS
+
+      Callback bytes : 16010
+      SHA-256        : 823f6416f3e33accb9e3704af01e26877af9e00862b608043cf991eee4262907
+      Gotenberg-Trace: 017b-20261003T114644Z
+      traceparent    : 00-bdbb00ef11425215d97ac42c7406da9b-3d6fcb31acbbb5ec-01
+
+[5/5] Result
+
+============================================
+WEBHOOK VALIDATION: PASS
+============================================
+Experiment       : 017b-20261003T114644Z
+Initial response : 204
+Async callback   : PASS
+PDF validation   : PASS
+Trace correlation: PASS

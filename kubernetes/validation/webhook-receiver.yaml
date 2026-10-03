@@ -1,0 +1,163 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webhook-receiver
+  namespace: observability
+data:
+  receiver.py: |
+    import hashlib
+    import json
+    import os
+    import threading
+    from datetime import datetime, timezone
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    lock = threading.Lock()
+
+    state = {
+        "callbacks": {}
+    }
+
+    class Handler(BaseHTTPRequestHandler):
+        def _json(self, code, payload):
+            body = json.dumps(payload, indent=2).encode()
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def do_GET(self):
+            if self.path == "/healthz":
+                self._json(200, {"status": "ok"})
+                return
+
+            if self.path == "/status":
+                with lock:
+                    snapshot = json.loads(json.dumps(state))
+                self._json(200, snapshot)
+                return
+
+            self._json(404, {"error": "not found"})
+
+        def do_POST(self):
+            length = int(self.headers.get("Content-Length", "0"))
+            body = self.rfile.read(length)
+
+            trace = self.headers.get("Gotenberg-Trace", "")
+            traceparent = self.headers.get("traceparent", "")
+
+            if self.path == "/callback":
+                content_type = self.headers.get("Content-Type", "")
+
+                record = {
+                    "received_at_utc": datetime.now(timezone.utc).isoformat(),
+                    "gotenberg_trace": trace,
+                    "traceparent": traceparent,
+                    "content_type": content_type,
+                    "bytes": len(body),
+                    "pdf_signature": body.startswith(b"%PDF-"),
+                    "sha256": hashlib.sha256(body).hexdigest(),
+                }
+
+                key = trace or "unknown"
+
+                with lock:
+                    state["callbacks"][key] = record
+
+                print(json.dumps({"callback": record}), flush=True)
+
+                self._json(200, {"status": "accepted", "trace": key})
+                return
+
+            if self.path == "/events":
+                try:
+                    event = json.loads(body.decode("utf-8"))
+                except Exception:
+                    self._json(400, {"error": "invalid JSON"})
+                    return
+
+                key = event.get("correlationId") or trace or "unknown"
+
+                with lock:
+                    state.setdefault("events", {})
+                    state["events"].setdefault(key, [])
+                    state["events"][key].append(event)
+
+                print(json.dumps({"event": event}), flush=True)
+
+                self._json(200, {"status": "accepted"})
+                return
+
+            self._json(404, {"error": "not found"})
+
+        def log_message(self, format, *args):
+            return
+
+    server = ThreadingHTTPServer(("0.0.0.0", 8080), Handler)
+    server.serve_forever()
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhook-receiver
+  namespace: observability
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webhook-receiver
+  template:
+    metadata:
+      labels:
+        app: webhook-receiver
+    spec:
+      containers:
+        - name: receiver
+          image: python:3.12-alpine
+          command:
+            - python
+            - /app/receiver.py
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 1
+            periodSeconds: 2
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 10m
+              memory: 24Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+            - name: receiver-code
+              mountPath: /app
+      volumes:
+        - name: receiver-code
+          configMap:
+            name: webhook-receiver
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhook-receiver
+  namespace: observability
+spec:
+  type: ClusterIP
+  selector:
+    app: webhook-receiver
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
