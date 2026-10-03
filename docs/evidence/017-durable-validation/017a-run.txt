@@ -1,0 +1,48 @@
+=== OpsLens Durable Conversion Validation ===
+Experiment ID : 017a-20261003T113208Z
+
+[1/8] Starting localhost-only Envoy port-forward...
+      Envoy reachable.
+
+[2/8] Converting HTML to PDF through Envoy...
+      HTTP status: 200
+
+[3/8] Validating generated PDF...
+      PDF signature: PASS
+      PDF bytes    : 22681
+      SHA-256      : d8470dbd2d336c4b1fa084ddf675eb0bcbbf9c3bf029005f9eedb753c72fae9b
+
+[4/8] Uploading PDF to durable S3 storage...
+      Upload: PASS
+      Object key: experiments/017a-20261003T113208Z/result.pdf
+
+[5/8] Verifying stored S3 object...
+      Stored bytes : 22681
+      Encryption   : AES256
+      Version ID   : present
+      SHA metadata : MATCH
+
+[6/8] Downloading object to an independent file...
+      Download: PASS
+      SHA-256 : d8470dbd2d336c4b1fa084ddf675eb0bcbbf9c3bf029005f9eedb753c72fae9b
+
+[7/8] Comparing original and durable copy...
+      Checksum match: PASS
+
+[8/8] Validation metadata uploaded.
+
+============================================
+DURABLE VALIDATION: PASS
+============================================
+Experiment       : 017a-20261003T113208Z
+HTTP conversion  : PASS (200)
+PDF validation   : PASS
+PDF bytes        : 22681
+Original SHA256  : d8470dbd2d336c4b1fa084ddf675eb0bcbbf9c3bf029005f9eedb753c72fae9b
+S3 upload        : PASS
+S3 encryption    : AES256
+S3 versioning    : PASS
+S3 re-download   : PASS
+Downloaded SHA256: d8470dbd2d336c4b1fa084ddf675eb0bcbbf9c3bf029005f9eedb753c72fae9b
+Checksum match   : PASS
+Metadata key     : experiments/017a-20261003T113208Z/metadata.json
