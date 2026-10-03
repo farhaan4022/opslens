@@ -1,0 +1,4 @@
+NAME                                     READY   STATUS    RESTARTS   AGE     IP            NODE                                         NOMINATED NODE   READINESS GATES
+envoy-gateway-56969549f6-mdn8b           1/1     Running   0          5m54s   10.0.20.59    ip-10-0-20-251.ap-south-1.compute.internal   <none>           <none>
+gotenberg-chromium-6c5c5f8876-46pwh      1/1     Running   0          6m13s   10.0.20.120   ip-10-0-20-251.ap-south-1.compute.internal   <none>           <none>
+gotenberg-libreoffice-7c95f9f57b-8k9lb   1/1     Running   0          6m13s   10.0.20.92    ip-10-0-20-251.ap-south-1.compute.internal   <none>           <none>

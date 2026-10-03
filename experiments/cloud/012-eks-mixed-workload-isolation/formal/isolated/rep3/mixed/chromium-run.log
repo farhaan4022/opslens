@@ -1,0 +1,35 @@
+Warming chromium with 1 request(s)...
+
+Starting OpsLens workload
+Run ID:       8ca2a0d7
+Engine:       chromium
+Requests:     120
+Concurrency:  6
+Fixture:      experiments/baseline/002-engine-characterization/fixtures/index.html
+
+{
+  "run_id": "8ca2a0d7",
+  "engine": "chromium",
+  "target": "http://opslens-eks-gotenberg-29688764.ap-south-1.elb.amazonaws.com",
+  "fixture": "experiments/baseline/002-engine-characterization/fixtures/index.html",
+  "request_count": 120,
+  "concurrency": 6,
+  "warmup_requests": 1,
+  "wait_delay": null,
+  "timeout_s": 60.0,
+  "success_count": 120,
+  "failure_count": 0,
+  "success_rate_pct": 100.0,
+  "wall_time_s": 34.538179,
+  "throughput_rps": 3.474416,
+  "latency_successful_s": {
+    "min": 1.013343,
+    "p50": 1.682474,
+    "p95": 2.237072,
+    "p99": 2.495294,
+    "max": 2.682215
+  }
+}
+
+Requests: experiments/cloud/012-eks-mixed-workload-isolation/formal/isolated/rep3/mixed/chromium/requests.csv
+Summary:  experiments/cloud/012-eks-mixed-workload-isolation/formal/isolated/rep3/mixed/chromium/summary.json
