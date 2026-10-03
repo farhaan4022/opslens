@@ -40,6 +40,13 @@ datasources:
           httpMethod: POST
           timeInterval: 5s
 
+      - name: Loki
+        type: loki
+        uid: loki
+        access: proxy
+        url: http://loki.observability.svc.cluster.local:3100
+        isDefault: false
+        editable: false
 grafana.ini:
   analytics:
     reporting_enabled: false
