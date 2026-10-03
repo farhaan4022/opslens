@@ -57,10 +57,15 @@ jobs:
         with:
           version: v1.35.0
 
-      - name: Validate application manifests
+      - name: Validate Kubernetes manifests offline
         shell: bash
         run: |
           set -euo pipefail
+
+          python3 -m pip install \
+            --disable-pip-version-check \
+            --quiet \
+            PyYAML==6.0.2
 
           manifests=(
             kubernetes/base/gotenberg/namespace.yaml
@@ -74,17 +79,82 @@ jobs:
             kubernetes/observability/dashboard-configmap.yaml
             kubernetes/observability/logs-dashboard-configmap.yaml
             kubernetes/validation/webhook-receiver.yaml
+            kubernetes/gitops/opslens-application.yaml
           )
 
-          for manifest in "${manifests[@]}"; do
-            echo "Validating $manifest"
+          python3 - "${manifests[@]}" <<'PYVALIDATE'
+          import sys
+          from pathlib import Path
 
-            kubectl apply \
-              --dry-run=client \
-              --validate=false \
-              -f "$manifest" \
-              >/dev/null
-          done
+          import yaml
+
+          failed = False
+
+          for filename in sys.argv[1:]:
+              path = Path(filename)
+              print(f"Validating {path}")
+
+              try:
+                  documents = list(yaml.safe_load_all(path.read_text()))
+              except Exception as exc:
+                  print(f"ERROR: invalid YAML: {path}: {exc}")
+                  failed = True
+                  continue
+
+              resources = [doc for doc in documents if doc is not None]
+
+              if not resources:
+                  print(f"ERROR: no YAML documents found: {path}")
+                  failed = True
+                  continue
+
+              for index, resource in enumerate(resources, start=1):
+                  if not isinstance(resource, dict):
+                      print(
+                          f"ERROR: document {index} in {path} "
+                          "is not a mapping"
+                      )
+                      failed = True
+                      continue
+
+                  for required in ("apiVersion", "kind", "metadata"):
+                      if required not in resource:
+                          print(
+                              f"ERROR: document {index} in {path} "
+                              f"is missing {required}"
+                          )
+                          failed = True
+
+                  metadata = resource.get("metadata", {})
+
+                  if isinstance(metadata, dict):
+                      if not metadata.get("name"):
+                          print(
+                              f"ERROR: document {index} in {path} "
+                              "is missing metadata.name"
+                          )
+                          failed = True
+
+          if failed:
+              raise SystemExit(1)
+
+          print("Offline Kubernetes YAML validation passed.")
+          PYVALIDATE
+
+          echo
+          echo "Rendering active GitOps application with Kustomize..."
+
+          kubectl kustomize kubernetes \
+            > /tmp/opslens-gitops-rendered.yaml
+
+          test -s /tmp/opslens-gitops-rendered.yaml
+
+          echo "Kustomize render passed."
+          echo
+          echo "Rendered resources:"
+
+          grep '^kind:' \
+            /tmp/opslens-gitops-rendered.yaml
 
       - name: Validate Grafana dashboard JSON
         shell: bash
