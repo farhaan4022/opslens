@@ -90,13 +90,35 @@ aws eks describe-nodegroup \
 # Stream custom-scaler events
 # ------------------------------------------------------------
 
-kubectl logs \
-  -n opslens \
-  deployment/queue-scaler \
-  --since=10s \
-  -f \
-  > "$OUT/queue-scaler.log" \
-  2>&1 &
+# Experiment guard: CPU HPA must not exist.
+HPA_COUNT="$(
+  kubectl get hpa     -n opslens     --no-headers 2>/dev/null   | wc -l
+)"
+
+if [[ "$HPA_COUNT" -ne 0 ]]; then
+  echo "ERROR: HPA objects still exist in namespace opslens."
+  kubectl get hpa -n opslens
+  exit 1
+fi
+
+# Recreate strategy should guarantee one active controller.
+SCALER_COUNT="$(
+  kubectl get pod     -n opslens     -l app=queue-scaler     -o name   | wc -l
+)"
+
+if [[ "$SCALER_COUNT" -ne 1 ]]; then
+  echo "ERROR: expected exactly one queue-scaler pod; found ${SCALER_COUNT}"
+  kubectl get pods -n opslens -l app=queue-scaler -o wide
+  exit 1
+fi
+
+SCALER_POD="$(
+  kubectl get pod     -n opslens     -l app=queue-scaler     -o jsonpath='{.items[0].metadata.name}'
+)"
+
+echo "$SCALER_POD" > "$OUT/queue-scaler-pod.txt"
+
+kubectl logs   -n opslens   "$SCALER_POD"   --since=10s   -f   > "$OUT/queue-scaler.log"   2>&1 &
 
 PIDS+=("$!")
 
